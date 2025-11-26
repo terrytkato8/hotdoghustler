@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 475d99ead6ed75c46b8d90ce6b9c8086, type: 3}
+  m_Name: SausageRecipe
+  m_EditorClassIdentifier: 
+  rawInput: {fileID: 11400000, guid: 6e42125266711fe4ca1782627a0cb104, type: 2}
+  cookedOutput: {fileID: 11400000, guid: f53d16b3e26eac14a882b74d4d24c95b, type: 2}
+  cookingTimeMax: 3
+  burntOutput: {fileID: 11400000, guid: 556b3ad51af9d3342be6d1e7dfc04693, type: 2}
+  burningTimeMax: 5
