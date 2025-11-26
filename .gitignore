@@ -102,5 +102,6 @@ Artifacts/
 BurstCache/
 *apiupaterconfigs
 CachedNodeOutput/
-PackageCache
-ShaderCache
+PackageCache/
+ShaderCache/
+Temp/
