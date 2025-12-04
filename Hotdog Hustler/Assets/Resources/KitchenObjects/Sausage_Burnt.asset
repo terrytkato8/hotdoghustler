@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
   m_Name: Sausage_Burnt
   m_EditorClassIdentifier: 
+  prefab: {fileID: 517667625958921579, guid: fa304958fbd80fa4eb13eff104a24793, type: 3}
   objectName: Sausage_Burnt
-  sprite: {fileID: -4412145258169934673, guid: 872679b924e81554ca7ea54bd304fc87, type: 3}

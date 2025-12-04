@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class GameState : State 
+public abstract class BaseGameState : State 
 {
   protected GameManager owner;
-  public ToppingMenuPanelController ToppingMenuPanelController { get { return owner.GetToppingMenuPanelController(); }}
-  public GameInput GameInput { get { return owner.GetGameInput(); }}
-  public Player Player { get { return owner.GetPlayer(); }}
+  protected ToppingMenuPanelController ToppingMenuPanelController { get { return owner.GetToppingMenuPanelController(); }}
+  protected GameInput GameInput { get { return owner.GetGameInput(); }}
+  protected Player Player { get { return owner.GetPlayer(); }}
+  protected CustomerManager CustomerManager { get {  return owner.GetCustomerManager(); }}
+  protected DayClockPanelController DayClockPanelController { get {  return owner.GetDayClockPanelController(); }}
+  protected Day Day { set { owner.SetDay(value); } get { return owner.GetDay(); } }
 
-  protected virtual void Awake()
+
+  public override void Enter()
   {
     owner = GetComponent<GameManager>();
+    base.Enter();
   }
 
   protected override void AddListeners ()
   {
     GameInput.OnInteractAction += OnInteraction;
     GameInput.OnMovementPerformed += OnMove;
+    Debug.Log("AddListeners");
   }
   
   protected override void RemoveListeners ()

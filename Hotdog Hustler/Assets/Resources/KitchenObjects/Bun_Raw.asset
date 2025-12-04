@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
   m_Name: Bun_Raw
   m_EditorClassIdentifier: 
+  prefab: {fileID: 215032189634392621, guid: 083ea8a0c9b2cea4bb80682fb037fc78, type: 3}
   objectName: Bun_Raw
-  sprite: {fileID: 0}

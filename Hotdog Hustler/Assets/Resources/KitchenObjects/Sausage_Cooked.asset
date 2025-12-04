@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
   m_Name: Sausage_Cooked
   m_EditorClassIdentifier: 
+  prefab: {fileID: 2170221199244975493, guid: e7badc3ff74e6364ea6cc3b03e52db88, type: 3}
   objectName: Sausage_Cooked
-  sprite: {fileID: -4808505331019995094, guid: a6e31e7f9b9c18c449dbf6770dee1e88, type: 3}

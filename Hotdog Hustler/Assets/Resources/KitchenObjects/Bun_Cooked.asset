@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
   m_Name: Bun_Cooked
   m_EditorClassIdentifier: 
+  prefab: {fileID: 2661720376528090015, guid: b7ac772c040feb841a78406f393b80d2, type: 3}
   objectName: Bun_Cooked
-  sprite: {fileID: 2184277102450767653, guid: ab222798f3813604099502621512ebf0, type: 3}

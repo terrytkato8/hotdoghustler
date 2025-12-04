@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
   m_Name: Bun_Burned
   m_EditorClassIdentifier: 
+  prefab: {fileID: 8279087507650494316, guid: 0b242e99f09c5c747b3dce801ab65f5d, type: 3}
   objectName: Bun_Burned
-  sprite: {fileID: -5032180835265790711, guid: fc3f41496ecc98742b3031aa6e6c7137, type: 3}

@@ -15,4 +15,4 @@ MonoBehaviour:
   ingredients:
   - {fileID: 11400000, guid: 8a9028ed92ed072479e3713a13571717, type: 2}
   - {fileID: 11400000, guid: f53d16b3e26eac14a882b74d4d24c95b, type: 2}
-  preparedDish: {fileID: 11400000, guid: c7ba7605a8f194242b720b1c4bd5487f, type: 2}
+  preparedDish: {fileID: 11400000, guid: da1315812fc787e4597364d4d705295a, type: 2}

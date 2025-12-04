@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 
-public class CookingServingState : GameState
+public class CookingServingState : DayState
 {
   public override void Enter()
   {
     base.Enter();
-    Debug.Log("Entered Gameplay State");
+    if (CustomerManager.IsActive())
+      CustomerManager.Activate();
+    Debug.Log("Entered CookingServing State");
   }
 
   protected override void AddListeners()

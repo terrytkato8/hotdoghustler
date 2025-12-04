@@ -1,13 +1,17 @@
+using System;
 using UnityEngine;
 
 public class ServingStation : MonoBehaviour, IInteractable
 {
+  public static event EventHandler<OnServeEventArgs> OnObjectServed;
   public void Interact(Player player)
   {
     if (player.HasKitchenObject())
     {
-      player.GetKitchenObject().DestroySelf();
-      Debug.Log("Player served the food");
+      OnObjectServed?.Invoke(this, new OnServeEventArgs
+      {
+        servedObject = player.GetKitchenObject()
+      });
     }
   }
 }

@@ -5,17 +5,17 @@ public class ToppingStation : MonoBehaviour, IInteractable
 {
   public static event EventHandler OnToppingStationActivated;
 
-  [SerializeField] private KitchenObjectSO hotdogKitchenObjectSO;
+  [SerializeField] private PreparedDishSO preparedDishSO;
 
   public void Interact(Player player)
   {
     if (player.HasKitchenObject())
     {
 
-      if (player.GetKitchenObject().GetKitchenObjectSO() == hotdogKitchenObjectSO) //hardcoded check for now. Later will check for a "toppable dish".
+      if (player.GetKitchenObject().GetPreparedDishSO() != null) 
       {
 
-        Debug.Log("Player put Hotdog on Topping Station.");
+        Debug.Log("Player put Hotdog on Topping Station."); //message for hotdog right now. can be any prepared dish in the future.
 
         OnToppingStationActivated?.Invoke(this, EventArgs.Empty);
       }

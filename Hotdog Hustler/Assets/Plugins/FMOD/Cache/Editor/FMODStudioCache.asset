@@ -50,7 +50,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 1802176192785047421}
   cacheVersion: 131857
-  cacheTime: 638997796927079007
+  cacheTime: 638998492853263876
   SerializableEventsDict:
   - key: event:/TEST
     index: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638997796927079007
+  lastModified: 638998492853263876
   FileSizes:
   - Name: Desktop
     Value: 766
@@ -89,7 +89,7 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638997796927063811
+  lastModified: 638998492853263876
   FileSizes:
   - Name: Desktop
     Value: 39680
