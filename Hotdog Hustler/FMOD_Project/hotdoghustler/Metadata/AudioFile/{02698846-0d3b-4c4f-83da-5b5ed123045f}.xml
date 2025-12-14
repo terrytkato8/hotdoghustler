@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{02698846-0d3b-4c4f-83da-5b5ed123045f}">
+		<property name="assetPath">
+			<value>SFX/SFX_NPC/SFX_NPC_Custom_React_Disapprove_2.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>5.5039999999999996</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1d1275bc-7cf7-402c-84d1-151987cb446a}</destination>
+		</relationship>
+	</object>
+</objects>

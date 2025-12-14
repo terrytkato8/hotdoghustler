@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{b2a6a2d3-bdb2-40d3-bd1a-b7a6ae522986}">
+		<property name="assetPath">
+			<value>SFX/SFX_Game/SFX_Game_Toaster_Ready.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>7.6079999999999997</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1d1275bc-7cf7-402c-84d1-151987cb446a}</destination>
+		</relationship>
+	</object>
+</objects>

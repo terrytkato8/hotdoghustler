@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{e6908bc2-3193-4fc0-b3cd-68906a882172}">
+		<property name="assetPath">
+			<value>SFX/SFX_Env/SFX_Env_Street_Bed.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>96</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>180</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1d1275bc-7cf7-402c-84d1-151987cb446a}</destination>
+		</relationship>
+	</object>
+</objects>
