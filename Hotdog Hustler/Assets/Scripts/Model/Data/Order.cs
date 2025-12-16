@@ -15,4 +15,25 @@ public class Order
   {
     this.wantedToppings = wantedToppings;
   }
+
+  public double GetTotalPrice()
+  {
+    double total = 0;
+
+    if (wantedDish != null)
+    {
+      total += wantedDish.price;
+    }
+
+    if (wantedToppings != null)
+    {
+      foreach (var topping in wantedToppings)
+      {
+        if (topping != null)
+          total += topping.price;
+      }
+    }
+
+    return total;
+  }
 }

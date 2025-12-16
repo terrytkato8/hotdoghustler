@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-public class InitState : BaseGameState
+public class InitDayState : BaseGameState
 {
-  private float dayTime = 30f; //For testing purposes a day is 30 seconds
-
   public override void Enter()
   {
     base.Enter();
@@ -13,8 +11,9 @@ public class InitState : BaseGameState
 
   private IEnumerator Init()
   {
-    CustomerManager.Activate();
-    DayClockPanelController.Show(dayTime);
+    CustomerManager.Activate(ProgressionManager.GetUnlockedToppings());
+    DayManager.Activate();
+    ProgressionManager.IncreaseDay();
 
     yield return null;
     owner.ChangeState<CookingServingState>();

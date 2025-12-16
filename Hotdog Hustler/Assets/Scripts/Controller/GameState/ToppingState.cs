@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.GPUSort;
 
@@ -9,7 +10,8 @@ public class ToppingState : DayState
     base.Enter();
 
     // Show UI
-    ToppingMenuPanelController.Show();
+    List<ToppingSO> unlockedToppings = ProgressionManager.GetUnlockedToppings();
+    ToppingMenuPanelController.Show(unlockedToppings);
     Debug.Log("Entered Topping State");
   }
 

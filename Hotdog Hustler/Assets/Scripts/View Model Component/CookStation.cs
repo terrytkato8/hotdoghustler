@@ -93,4 +93,13 @@ public class CookStation : KitchenObjectParent, IInteractable
       }
     }
   }
+
+  public void SetIdle()
+  {
+    if (HasKitchenObject()) 
+    {
+      kitchenObject.DestroySelf();
+    }
+    state = State.Idle;
+  }
 }

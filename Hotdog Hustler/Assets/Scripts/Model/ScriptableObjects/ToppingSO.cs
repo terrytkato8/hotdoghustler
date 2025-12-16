@@ -7,4 +7,5 @@ public class ToppingSO : ScriptableObject
   public string toppingName;
   public ToppingQuality quality;
   public double price;
+  public double unlockPrice;
 }

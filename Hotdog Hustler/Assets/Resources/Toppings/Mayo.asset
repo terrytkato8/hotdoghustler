@@ -16,3 +16,4 @@ MonoBehaviour:
   toppingName: Mayo
   quality: 0
   price: 0.5
+  unlockPrice: 5

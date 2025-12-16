@@ -5,6 +5,7 @@ public class Player : KitchenObjectParent
 {
   [SerializeField] private float moveSpeed = 7f;
   [SerializeField] private LayerMask countersLayerMask;
+  [SerializeField] private Rigidbody2D rb;
 
   private bool isWalking; //will be used later for animations. Will also need a getter for the visual script.
   private Vector2 lastInputVector;
@@ -16,7 +17,7 @@ public class Player : KitchenObjectParent
     public Vector2 direction;
   }
 
-  public void Update()
+  public void FixedUpdate()
   {
     if (movementVector != Vector2.zero)
     {
@@ -43,9 +44,7 @@ public class Player : KitchenObjectParent
 
   public void HandleMovement()
   {
-    Vector3 moveDir = new Vector3(movementVector.x, movementVector.y, 0f);
-
-    transform.position += moveDir * moveSpeed * Time.deltaTime;
+    rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * movementVector);
 
     if (movementVector != lastInputVector)
     {
@@ -55,8 +54,6 @@ public class Player : KitchenObjectParent
       });
       lastInputVector = movementVector;
     }
-
-    isWalking = moveDir != Vector3.zero;
   }
 
   public void SetMovementVector(Vector2 movementVector)

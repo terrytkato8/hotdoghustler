@@ -8,7 +8,7 @@ public class ToppingUIItem : MonoBehaviour
   [SerializeField] private Color selectedColor = Color.white;
   [SerializeField] private Color unselectedColor = new(0.5f, 0.5f, 0.5f, 0.5f); // Dimmed
 
-  public void SetToppingData(ToppingSO toppingSO)
+  public virtual void SetToppingData(ToppingSO toppingSO)
   {
     SpriteRenderer prefabImageComponent = toppingSO.prefab.GetComponent<SpriteRenderer>();
     iconImage.sprite = prefabImageComponent.sprite;

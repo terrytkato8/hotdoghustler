@@ -6,9 +6,13 @@ public class CookingServingState : DayState
   public override void Enter()
   {
     base.Enter();
-    if (CustomerManager.IsActive())
-      CustomerManager.Activate();
     Debug.Log("Entered CookingServing State");
+  }
+
+  public override void Exit() 
+  {
+    base.Exit();
+    Player.SetMovementVector(Vector2.zero);
   }
 
   protected override void AddListeners()

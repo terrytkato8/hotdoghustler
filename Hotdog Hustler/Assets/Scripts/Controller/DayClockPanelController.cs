@@ -14,18 +14,13 @@ public class DayClockPanelController : MonoBehaviour
   [SerializeField] private Color panicColor = Color.red;
   [SerializeField] private float panicThreshold = 10f; // Seconds remaining to turn red
 
-  public event EventHandler OnDayTimeIsUp;
-  private bool hasInvokedEvent;
-
-  private float timeRemaining;
   private float maxTime;
 
   public void Show(float maxTime)
   {
     gameObject.SetActive(true);
-    hasInvokedEvent = false;
     this.maxTime = maxTime;
-    timeRemaining = this.maxTime;
+    UpdateClock(maxTime);
   }
 
   public void Hide()
@@ -33,20 +28,8 @@ public class DayClockPanelController : MonoBehaviour
     gameObject.SetActive(false);
   }
 
-  private void Update()
+  public void UpdateClock(float timeRemaining)
   {
-    UpdateClock();
-    if (timeRemaining <= 0 && !hasInvokedEvent) 
-    {
-      OnDayTimeIsUp?.Invoke(this, EventArgs.Empty);
-      hasInvokedEvent= true;
-    }
-  }
-
-  public void UpdateClock()
-  {
-    timeRemaining = Mathf.Max(0, timeRemaining -= Time.deltaTime);
-
     float minutes = Mathf.FloorToInt(timeRemaining / 60);
     float seconds = Mathf.FloorToInt(timeRemaining % 60);
 

@@ -13,7 +13,6 @@ public class CustomerManager : MonoBehaviour
 
   [SerializeField] private PreparedDishListSO preparedDishListSO;
   private List<PreparedDishSO> preparedDishList;
-  [SerializeField] private ToppingListSO toppingListSO;
   private List<ToppingSO> toppingList;
 
   private List<Customer> customersInLine = new ();
@@ -31,8 +30,7 @@ public class CustomerManager : MonoBehaviour
 
   private void Awake()
   {
-    preparedDishList = preparedDishListSO.preparedDishList;
-    toppingList = toppingListSO.toppingList;
+    preparedDishList = preparedDishListSO.preparedDishList; //when we have multiple dishes, this will also be set in the Activate() method.
   }
 
   private void Start()
@@ -40,14 +38,16 @@ public class CustomerManager : MonoBehaviour
     ServingStation.OnObjectServed += OnObjectServed;
   }
 
-  public void Activate()
+  public void Activate(List<ToppingSO> toppingList)
   {
     spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelayDayStart);
+    this.toppingList = toppingList;
     isActive = true;
   }
 
   public void Deactivate()
   {
+    ClearCustomerQueue();
     isActive = false;
   }
 
@@ -61,7 +61,7 @@ public class CustomerManager : MonoBehaviour
     if (isActive)
     {
       SpawnLogic();
-      OrderPanelLogic();
+      OrderLogic();
     }
   }
 
@@ -80,15 +80,23 @@ public class CustomerManager : MonoBehaviour
     }
   }
 
-  private void OrderPanelLogic()
+  private void OrderLogic()
   {
-    if (orderTimerInSeconds > 0)
+    if (GetFrontCustomer() != null)
     {
-      orderTimerInSeconds -= Time.deltaTime;
-      orderPanelController.UpdateVisuals(orderTimerInSeconds);
+      if (orderTimerInSeconds > 0)
+      {
+        orderTimerInSeconds -= Time.deltaTime;
+        orderPanelController.UpdateVisuals(orderTimerInSeconds);
+      }
+      else
+      {
+        Debug.Log("customer leaves");
+        ServedOrder servedOrder = new(null, 0, 0);
+        OnCustomerServed?.Invoke(this, new OnCustomerServedEventArgs{servedOrder = servedOrder});
+        CustomerLeaves(frontCustomer);
+      }
     }
-    else
-      CustomerLeaves(frontCustomer);
   }
 
   private void SpawnCustomer()
@@ -123,6 +131,7 @@ public class CustomerManager : MonoBehaviour
     if (customer != null && customersInLine.Contains(customer))
     {
       customersInLine.Remove(customer);
+      Destroy(customer.gameObject);
       frontCustomer = null;
       orderPanelController.HideOrderPanel();
       UpdateQueuePositions();
@@ -144,6 +153,14 @@ public class CustomerManager : MonoBehaviour
     }
   }
 
+  private void ClearCustomerQueue()
+  {
+    for (int i = 0; i < customersInLine.Count; i++)
+    {
+      CustomerLeaves(customersInLine[i]);
+    }
+  }
+
   public Order GetRandomOrder()
   {
     //int wantedToppingAmount = UnityEngine.Random.Range(0, 2); //will be added in the future so every order can have more than one topping
@@ -151,11 +168,16 @@ public class CustomerManager : MonoBehaviour
     PreparedDishSO wantedDish = preparedDishList[dishIndex];
     int toppingIndex = UnityEngine.Random.Range(0, toppingList.Count);
     ToppingSO wantedTopping = toppingList[toppingIndex];
-    List<ToppingSO> wantedToppingList = new();
-    wantedToppingList.Add(wantedTopping);
+    List<ToppingSO> wantedToppingList = new() {wantedTopping};
 
     Order wantedOrder = new(wantedDish, wantedToppingList);
     return wantedOrder;
+  }
+
+  private double CalculateMoneyPaid(Order order, double accuracy)
+  {
+    double totalPrice = order.GetTotalPrice();
+    return Math.Round(totalPrice * accuracy, 2);
   }
 
   private void OnObjectServed(object sender, OnServeEventArgs e)
@@ -163,13 +185,15 @@ public class CustomerManager : MonoBehaviour
     if (frontCustomer != null)
     {
       KitchenObject playerKitchenObject = e.servedObject;
-      Order playerPlate = new(playerKitchenObject.GetPreparedDishSO()); //will also get the toppings in the future
-      bool isReactionPositive = frontCustomer.ValidateOrder(playerPlate);
 
+      Order playerPlate = new(playerKitchenObject.GetPreparedDishSO(), playerKitchenObject.GetToppings());
+      double accuracy = frontCustomer.ValidateOrder(playerPlate);
+      double moneyPaid = CalculateMoneyPaid(playerPlate, accuracy);
+
+      ServedOrder servedOrder = new(playerPlate, accuracy, moneyPaid);
       OnCustomerServed?.Invoke(this, new OnCustomerServedEventArgs
       {
-        order = playerPlate,
-        wasCustomerHappy = isReactionPositive
+        servedOrder = servedOrder
       });
 
       playerKitchenObject.DestroySelf();

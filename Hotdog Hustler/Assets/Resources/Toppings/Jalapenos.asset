@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff982d84951f4745817d52dade97a94, type: 3}
+  m_Name: Jalapenos
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8954624016589731356, guid: 636d33bc3e2f874439bc6e60f806de28, type: 3}
+  toppingName: Jalapenos
+  quality: 1
+  price: 1.5
+  unlockPrice: 12

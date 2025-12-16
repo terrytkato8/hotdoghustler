@@ -5,7 +5,6 @@ public class ToppingMenuPanelController : MonoBehaviour
 {
   [Header("Configuration")]
   [SerializeField] private GameObject visualPanel;
-  [SerializeField] private ToppingListSO toppingListSO;
   [SerializeField] private Sprite exitIconSprite;
 
   [Header("UI References")]
@@ -13,32 +12,28 @@ public class ToppingMenuPanelController : MonoBehaviour
   [SerializeField] private GameObject itemTemplate;
 
   private List<ToppingUIItem> uiItems = new();
-  private List<ToppingSO> toppingList;
+  protected List<ToppingSO> toppingList;
   private int selection;
-
-  private void Awake()
-  {
-    toppingList = toppingListSO.toppingList;
-  }
 
   private void Start()
   {
-    InitializeButtons();
     Hide(); // Start hidden
   }
 
-  public void Show()
+  public void Show(List<ToppingSO> toppingList)
   {
     visualPanel.SetActive(true);
+    this.toppingList = toppingList;
     selection = 0;
+    InitializeButtons();
   }
 
-  public void Hide()
+  public virtual void Hide()
   {
     visualPanel.SetActive(false);
   }
 
-  private void InitializeButtons()
+  protected void InitializeButtons()
   {
     foreach (Transform child in iconsContainer)
     {

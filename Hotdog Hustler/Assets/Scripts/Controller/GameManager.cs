@@ -7,23 +7,28 @@ public class GameManager : StateMachine
   [Header("References")]
   [SerializeField] private GameInput gameInput;
   [SerializeField] private Player player;
-  [SerializeField] private ToppingMenuPanelController toppingMenuPanelController;
   [SerializeField] private CustomerManager customerManager;
-  [SerializeField] private DayClockPanelController dayClockPanelController;
-  private Day day = new();
+  [SerializeField] private DayManager dayManager;
+  [SerializeField] private ProgressionManager progressionManager;
+  [SerializeField] private ToppingMenuPanelController toppingMenuPanelController;
+  [SerializeField] private ShopMenuPanelController shopMenuPanelController;
+  [SerializeField] private CookStation grillstation;
+  [SerializeField] private CookStation toastStation;
 
   void Start ()
   {
     //ChangeState<MainMenuState>(); //when we have a mainmenustate, the game starts with that
-    ChangeState<InitState>();
+    ChangeState<InitGameState>();
   }
 
   //GETTER
   public GameInput GetGameInput() { return gameInput; }
   public Player GetPlayer() { return player; }
   public ToppingMenuPanelController GetToppingMenuPanelController() { return toppingMenuPanelController; }
+  public ShopMenuPanelController GetShopMenuPanelController() { return shopMenuPanelController; }
   public CustomerManager GetCustomerManager() { return customerManager ;}
-  public DayClockPanelController GetDayClockPanelController() { return dayClockPanelController; }
-  public Day GetDay() { return day; }
-  public void SetDay(Day day) { this.day = day; }
+  public DayManager GetDayManager() { return dayManager; }
+  public ProgressionManager GetProgressionManager() { return progressionManager; }
+  public CookStation GetGrillStation() { return grillstation; }
+  public CookStation GetToastStation() { return toastStation; }
 }

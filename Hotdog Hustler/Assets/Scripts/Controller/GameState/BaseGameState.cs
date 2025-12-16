@@ -7,12 +7,14 @@ public abstract class BaseGameState : State
 {
   protected GameManager owner;
   protected ToppingMenuPanelController ToppingMenuPanelController { get { return owner.GetToppingMenuPanelController(); }}
+  protected ShopMenuPanelController ShopMenuPanelController { get { return owner.GetShopMenuPanelController(); } }
   protected GameInput GameInput { get { return owner.GetGameInput(); }}
   protected Player Player { get { return owner.GetPlayer(); }}
   protected CustomerManager CustomerManager { get {  return owner.GetCustomerManager(); }}
-  protected DayClockPanelController DayClockPanelController { get {  return owner.GetDayClockPanelController(); }}
-  protected Day Day { set { owner.SetDay(value); } get { return owner.GetDay(); } }
-
+  protected DayManager DayManager { get { return owner.GetDayManager(); } }
+  protected ProgressionManager ProgressionManager { get { return owner.GetProgressionManager(); }}
+  protected CookStation Grillstation { get { return owner.GetGrillStation(); }}
+  protected CookStation ToastStation {  get { return owner.GetToastStation(); }}
 
   public override void Enter()
   {
@@ -24,7 +26,6 @@ public abstract class BaseGameState : State
   {
     GameInput.OnInteractAction += OnInteraction;
     GameInput.OnMovementPerformed += OnMove;
-    Debug.Log("AddListeners");
   }
   
   protected override void RemoveListeners ()

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff982d84951f4745817d52dade97a94, type: 3}
+  m_Name: Mustard
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 921231403885565756, guid: d9da9e2dbb5b11e45813168beb30b0ab, type: 3}
+  toppingName: Mustard
+  quality: 0
+  price: 0.5
