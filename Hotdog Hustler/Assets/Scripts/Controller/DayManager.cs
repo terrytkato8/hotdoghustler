@@ -67,7 +67,7 @@ public class DayManager : MonoBehaviour
     {
       totalAccuracy += servedOrder.accuracy;
     }
-    return (totalAccuracy / GetCustomersServedCount()) * 100;
+    return totalAccuracy == 0 ? 0 : (totalAccuracy / GetCustomersServedCount()) * 100;
   }
 
   public double GetTotalMoneyPaid()

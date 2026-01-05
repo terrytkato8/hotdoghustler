@@ -35,7 +35,7 @@ public class OrderPanelController : MonoBehaviour
 
     if (order.wantedToppings.Count > 1)
     {
-      toppingIcon1.gameObject.SetActive(true);
+      toppingIcon2.gameObject.SetActive(true);
       if (order.wantedToppings[1].prefab.TryGetComponent<SpriteRenderer>(out var toppingSpriteRenderer2))
       {
         toppingIcon2.sprite = toppingSpriteRenderer2.sprite;

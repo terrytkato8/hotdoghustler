@@ -5,7 +5,11 @@ using System.Collections.Generic;
 
 public class ShopMenuPanelController : ToppingMenuPanelController
 {
+  public enum MenuState { Categories, Items }
+  private MenuState currentState;
+
   [SerializeField] private TextMeshProUGUI moneyText;
+  [SerializeField] private Sprite folderSprite;
 
   public void Show(double money, List<ToppingSO> lockedToppings)
   {
@@ -31,5 +35,10 @@ public class ShopMenuPanelController : ToppingMenuPanelController
   public void UpdateMoneyVisual(double money)
   {
     moneyText.text = "Cash: $" + money;
+  }
+
+  public MenuState GetCurrentState()
+  {
+    return currentState;
   }
 }

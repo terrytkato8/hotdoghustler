@@ -14,9 +14,9 @@ public class ToppingUIItem : MonoBehaviour
     iconImage.sprite = prefabImageComponent.sprite;
   }
 
-  public void SetAsExitButton(Sprite exitSprite)
+  public void SetOtherSprite(Sprite otherSprite)
   {
-    iconImage.sprite = exitSprite;
+    iconImage.sprite = otherSprite;
   }
 
   public void SetSelected(bool isSelected)

@@ -41,13 +41,14 @@ public class KitchenObject : MonoBehaviour
 
   public void AddTopping(ToppingSO topping)
   {
-    if (!toppingSOList.Contains(topping))
-    {
-      toppingSOList.Add(topping);
+    toppingSOList.Add(topping);
 
-      GameObject toppingVisual = Instantiate(topping.prefab, transform);
-      toppingVisual.transform.localPosition = Vector3.zero; // Reset position relative to hotdog
-    }
+    float randomXCoordinate = Random.Range(-1f, 1f); //so that not all topping sprites are perfectly on top of each other
+    float randomYCoordinate = Random.Range(-1f, 1f);
+
+    GameObject toppingVisual = Instantiate(topping.prefab, transform);
+    toppingVisual.transform.localPosition = new Vector3 (randomXCoordinate, randomYCoordinate, 0); // Reset position relative to hotdog
+    toppingVisual.transform.localScale = new Vector3 (3f,3f,3f); // Set the scaling to look normal on the hotdog. Will be set by the topping prefabs later itself.
   }
 
   public KitchenObjectSO GetKitchenObjectSO()

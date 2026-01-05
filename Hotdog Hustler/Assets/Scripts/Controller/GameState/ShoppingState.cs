@@ -9,11 +9,13 @@ public class ShoppingState : BaseGameState
   public override void Enter()
   {
     base.Enter();
+    Debug.Log("entered shopping State");
 
     List<ToppingSO> lockedToppings = ProgressionManager.GetLockedToppings();
     currentBalance = ProgressionManager.GetCurrentBalance();
     ShopMenuPanelController.Show(currentBalance, lockedToppings);
-    Debug.Log("entered shopping State");
+
+    ProgressionManager.SaveGame();
   }
 
   public override void Exit()

@@ -732,6 +732,7 @@ MonoBehaviour:
   iconsContainer: {fileID: 1551174945}
   itemTemplate: {fileID: 524172321511682554, guid: 2ca598ecb23a77747af3f84660836789, type: 3}
   moneyText: {fileID: 1249804478}
+  folderSprite: {fileID: 0}
 --- !u!1 &409880894
 GameObject:
   m_ObjectHideFlags: 0
@@ -2900,8 +2901,9 @@ MonoBehaviour:
   - {fileID: 1265324282}
   orderPanelController: {fileID: 409880896}
   preparedDishListSO: {fileID: 11400000, guid: 2371fc417d2deda458e7ed9285070037, type: 2}
-  minSpawnDelay: 2
-  maxSpawnDelay: 7
+  minSpawnDelay: 3
+  maxSpawnDelay: 15
+  customerGrowthPerDay: 0.15
   maxSpawnDelayDayStart: 4
 --- !u!114 &1230380863
 MonoBehaviour:
@@ -2917,7 +2919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayClockPanelController: {fileID: 1231994378}
   endOfDayPanelController: {fileID: 908552592}
-  dayTimer: 45
+  dayTimer: 30
 --- !u!114 &1230380864
 MonoBehaviour:
   m_ObjectHideFlags: 0

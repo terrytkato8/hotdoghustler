@@ -22,6 +22,8 @@ public class CustomerManager : MonoBehaviour
   [Header("Spawn Settings")]
   [SerializeField] private float minSpawnDelay = 2f;
   [SerializeField] private float maxSpawnDelay = 7f;
+  [SerializeField] private float customerGrowthPerDay = 0.15f;
+  private float maxSpawnDelayDayAdjusted;
   [SerializeField] private float maxSpawnDelayDayStart = 4f;
 
   public event EventHandler<OnCustomerServedEventArgs> OnCustomerServed;
@@ -38,9 +40,15 @@ public class CustomerManager : MonoBehaviour
     ServingStation.OnObjectServed += OnObjectServed;
   }
 
-  public void Activate(List<ToppingSO> toppingList)
+  public void Activate(List<ToppingSO> toppingList, int day)
   {
     spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelayDayStart);
+
+    double customerGrowthRate = Math.Pow(1 - customerGrowthPerDay, day);
+    maxSpawnDelayDayAdjusted = maxSpawnDelay * (float)customerGrowthRate;
+
+    Debug.Log("spawn delay: " + maxSpawnDelayDayAdjusted);
+
     this.toppingList = toppingList;
     isActive = true;
   }
@@ -75,7 +83,7 @@ public class CustomerManager : MonoBehaviour
       if (spawnTimer <= 0f)
       {
         SpawnCustomer();
-        spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
+        spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelayDayAdjusted);
       }
     }
   }
@@ -155,20 +163,26 @@ public class CustomerManager : MonoBehaviour
 
   private void ClearCustomerQueue()
   {
-    for (int i = 0; i < customersInLine.Count; i++)
+    int customersInLineCount = customersInLine.Count;
+    for (int i = 0; i < customersInLineCount; i++)
     {
-      CustomerLeaves(customersInLine[i]);
+      CustomerLeaves(customersInLine[0]);
     }
   }
 
   public Order GetRandomOrder()
   {
-    //int wantedToppingAmount = UnityEngine.Random.Range(0, 2); //will be added in the future so every order can have more than one topping
     int dishIndex = UnityEngine.Random.Range(0, preparedDishList.Count);
     PreparedDishSO wantedDish = preparedDishList[dishIndex];
-    int toppingIndex = UnityEngine.Random.Range(0, toppingList.Count);
-    ToppingSO wantedTopping = toppingList[toppingIndex];
-    List<ToppingSO> wantedToppingList = new() {wantedTopping};
+
+    int wantedToppingAmount = UnityEngine.Random.Range(2, 2);
+    List<ToppingSO> wantedToppingList = new();
+    for (int i = 0; i < wantedToppingAmount; i++)
+    {
+      int toppingIndex = UnityEngine.Random.Range(0, toppingList.Count);
+      ToppingSO wantedTopping = toppingList[toppingIndex];
+      wantedToppingList.Add(wantedTopping);
+    }
 
     Order wantedOrder = new(wantedDish, wantedToppingList);
     return wantedOrder;

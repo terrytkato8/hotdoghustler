@@ -44,32 +44,39 @@ public class ToppingMenuPanelController : MonoBehaviour
 
     foreach (ToppingSO topping in toppingList)
     {
-      CreateButton(topping, false);
+      CreateButton(topping);
     }
 
     //Create Exit Button (Last item)
-    CreateButton(null, true);
+    CreateButton(exitIconSprite);
 
     UpdateVisuals();
   }
 
-  private void CreateButton(ToppingSO topping, bool isExit)
+  private void CreateButton(ToppingSO topping)
+  {
+    ToppingUIItem uiItem = InstantiateToppUIItem();
+
+    uiItem.SetToppingData(topping);
+
+    uiItems.Add(uiItem);
+  }
+
+  private void CreateButton(Sprite sprite)
+  {
+    ToppingUIItem uiItem = InstantiateToppUIItem();
+
+    uiItem.SetOtherSprite(sprite);
+
+    uiItems.Add(uiItem);
+  }
+
+  private ToppingUIItem InstantiateToppUIItem()
   {
     GameObject btnTransform = Instantiate(itemTemplate, iconsContainer, false);
     gameObject.SetActive(true);
 
-    ToppingUIItem uiItem = btnTransform.GetComponent<ToppingUIItem>();
-
-    if (isExit)
-    {
-      uiItem.SetAsExitButton(exitIconSprite);
-    }
-    else
-    {
-      uiItem.SetToppingData(topping);
-    }
-
-    uiItems.Add(uiItem);
+    return btnTransform.GetComponent<ToppingUIItem>();
   }
 
   public void Navigate(Vector2 direction)

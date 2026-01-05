@@ -11,7 +11,7 @@ public class InitDayState : BaseGameState
 
   private IEnumerator Init()
   {
-    CustomerManager.Activate(ProgressionManager.GetUnlockedToppings());
+    CustomerManager.Activate(ProgressionManager.GetUnlockedToppings(), ProgressionManager.GetDay());
     DayManager.Activate();
     ProgressionManager.IncreaseDay();
 
