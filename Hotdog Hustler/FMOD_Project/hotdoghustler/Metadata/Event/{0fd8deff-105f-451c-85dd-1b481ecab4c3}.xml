@@ -31,6 +31,9 @@
 		<relationship name="timeline">
 			<destination>{2b629e7e-b520-46e6-9c5a-9fc68df81665}</destination>
 		</relationship>
+		<relationship name="banks">
+			<destination>{4586272c-80b3-4a91-b522-9426f44450fd}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixer" id="{fbb0d201-0923-4cc0-8b57-0e4b1374140e}">
 		<relationship name="masterBus">
@@ -91,6 +94,9 @@
 		</property>
 		<property name="timelockedOffset">
 			<value>4.0824029632721253</value>
+		</property>
+		<property name="volume">
+			<value>-12</value>
 		</property>
 		<relationship name="fadeInCurve">
 			<destination>{4a3c63fa-930c-46b5-94b5-b2284438f5a3}</destination>
