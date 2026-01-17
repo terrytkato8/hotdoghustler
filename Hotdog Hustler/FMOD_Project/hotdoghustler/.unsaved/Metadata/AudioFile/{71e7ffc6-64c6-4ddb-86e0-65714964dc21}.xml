@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{ad23466c-1845-4623-8a83-8922833ed0a5}">
+	<object class="AudioFile" id="{71e7ffc6-64c6-4ddb-86e0-65714964dc21}">
 		<property name="assetPath">
-			<value>SFX/SFX_Game/SFX_Game_Grill_Loop.wav</value>
+			<value>SFX/SFX_Game/SFX_Game_Toaster_Loop.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
@@ -14,7 +14,7 @@
 			<value>1</value>
 		</property>
 		<property name="length">
-			<value>20.48</value>
+			<value>11.333333333333334</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{1d1275bc-7cf7-402c-84d1-151987cb446a}</destination>

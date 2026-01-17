@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{9b27671a-0ad1-4ab5-b92b-2c2c7be2f216}">
+		<property name="name">
+			<value>toast_ready</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b9f33d6c-51b0-45cc-9fb9-e44962a3229f}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{d44aabad-fb2c-4f48-9a19-282e3dbf2b78}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{d44aabad-fb2c-4f48-9a19-282e3dbf2b78}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
