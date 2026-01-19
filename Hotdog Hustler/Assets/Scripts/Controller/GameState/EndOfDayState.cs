@@ -13,9 +13,14 @@ public class EndOfDayState : BaseGameState
 
     double totalMoneyPaid = DayManager.GetTotalMoneyPaid();
     ProgressionManager.AddMoney(totalMoneyPaid);
+
+    if (TutorialManager.IsActive())
+    {
+      TutorialManager.OnEndOfDayScreenReached();
+    }
   }
 
-  protected override void OnInteraction(object sender, EventArgs e)
+  protected override void OnRegularInteraction()
   {
     DayManager.Deactivate();
     owner.ChangeState<ShoppingState>();

@@ -16,6 +16,11 @@ public class PlayerVisuals : MonoBehaviour
     player.OnPlayerMove += Player_OnPlayerMove;
   }
 
+  private void OnDestroy()
+  {
+    player.OnPlayerMove -= Player_OnPlayerMove;
+  }
+
   private void Player_OnPlayerMove(object sender, Player.OnPlayerMoveEventArgs e)
   {
     UpdateVisuals(e.direction);

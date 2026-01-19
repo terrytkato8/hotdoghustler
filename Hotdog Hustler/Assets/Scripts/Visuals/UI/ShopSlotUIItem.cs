@@ -13,4 +13,11 @@ public class ToppingShopUIItem : ToppingUIItem
     nameText.text = topping.toppingName;
     priceText.text = "$" + topping.unlockPrice;
   }
+
+  public void SetToppingCategoryData(ToppingQuality quality, Sprite sprite)
+  {
+    iconImage.sprite = sprite;
+    nameText.text = quality.ToString();
+    priceText.text = "";
+  }
 }

@@ -66,6 +66,11 @@ public class KitchenObject : MonoBehaviour
     return toppingSOList;
   }
 
+  public FoodState GetFoodState()
+  {
+    return kitchenObjectSO.foodState;
+  }
+
   public void DestroySelf()
   {
     kitchenObjectParent.ClearKitchenObject();

@@ -7,6 +7,10 @@ public class CookingServingState : DayState
   {
     base.Enter();
     Debug.Log("Entered CookingServing State");
+    if (TutorialManager.IsActive())
+    {
+      TutorialManager.AdvanceTutorial();
+    }
   }
 
   public override void Exit() 
@@ -19,17 +23,21 @@ public class CookingServingState : DayState
   {
     base.AddListeners();
     GameInput.OnMovementCancelled += OnMoveStop;
-    ToppingStation.OnToppingStationActivated += OnToppingStationActivated;
+    ToppingStation.OnToppingStationActivated.AddListener(ToppingStation_OnToppingStationActivated);
+    CustomerManager.OnCustomerServed.AddListener(CustomerManager_OnCustomerServed);
+    TutorialManager.OnTutorialOrderServed.AddListener(TutorialManager_OnTutorialOrderServed);
   }
 
   protected override void RemoveListeners()
   {
     base.RemoveListeners();
     GameInput.OnMovementCancelled -= OnMoveStop;
-    ToppingStation.OnToppingStationActivated -= OnToppingStationActivated;
+    ToppingStation.OnToppingStationActivated.RemoveListener(ToppingStation_OnToppingStationActivated);
+    CustomerManager.OnCustomerServed.RemoveListener(CustomerManager_OnCustomerServed);
+    TutorialManager.OnTutorialOrderServed.RemoveListener(TutorialManager_OnTutorialOrderServed);
   }
 
-  protected override void OnInteraction(object sender, EventArgs e)
+  protected override void OnRegularInteraction()
   {
     Player.HandleInteractions();
   }
@@ -45,8 +53,18 @@ public class CookingServingState : DayState
     Player.SetMovementVector(Vector2.zero);
   }
 
-  private void OnToppingStationActivated(object sender, EventArgs e)
+  private void ToppingStation_OnToppingStationActivated(object sender, KitchenObjectEventArgs e)
   {
     owner.ChangeState<ToppingState>();
+  }
+
+  private void CustomerManager_OnCustomerServed(object sender, OnCustomerServedEventArgs e)
+  {
+    DayManager.AddCustomerServed(e.servedOrder);
+  }
+
+  private void TutorialManager_OnTutorialOrderServed(object sender, EventArgs e)
+  {
+    DayManager.Activate();
   }
 }

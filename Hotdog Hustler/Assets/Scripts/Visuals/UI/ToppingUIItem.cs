@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ToppingUIItem : MonoBehaviour
 {
-  [SerializeField] private Image iconImage;
+  [SerializeField] protected Image iconImage;
   [SerializeField] private GameObject selectionOutline;
   [SerializeField] private Color selectedColor = Color.white;
   [SerializeField] private Color unselectedColor = new(0.5f, 0.5f, 0.5f, 0.5f); // Dimmed

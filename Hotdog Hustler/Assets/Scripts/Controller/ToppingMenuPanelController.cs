@@ -10,8 +10,8 @@ public class ToppingMenuPanelController : MonoBehaviour
   [Header("UI References")]
   [SerializeField] private Transform iconsContainer;
   [SerializeField] private GameObject itemTemplate;
-
   private List<ToppingUIItem> uiItems = new();
+
   protected List<ToppingSO> toppingList;
   private int selection;
 
@@ -33,7 +33,7 @@ public class ToppingMenuPanelController : MonoBehaviour
     visualPanel.SetActive(false);
   }
 
-  protected void InitializeButtons()
+  private void InitializeButtons()
   {
     foreach (Transform child in iconsContainer)
     {
@@ -123,5 +123,10 @@ public class ToppingMenuPanelController : MonoBehaviour
   public int GetSelection()
   {
     return selection;
+  }
+
+  public Transform GetVisualPanelTransform()
+  {
+    return visualPanel.transform;
   }
 }

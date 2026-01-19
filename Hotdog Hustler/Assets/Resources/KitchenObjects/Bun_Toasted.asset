@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18e994db33718d34bade462c86bd1d29, type: 3}
-  m_Name: Bun_Cooked
+  m_Name: Bun_Toasted
   m_EditorClassIdentifier: 
   prefab: {fileID: 2661720376528090015, guid: b7ac772c040feb841a78406f393b80d2, type: 3}
-  objectName: Bun_Cooked
+  objectName: Bun_Toasted
+  foodState: 1

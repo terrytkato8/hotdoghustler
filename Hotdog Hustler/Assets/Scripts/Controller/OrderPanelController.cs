@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 public class OrderPanelController : MonoBehaviour
 {
   [SerializeField] private GameObject panelContent;
+  [SerializeField] private Image background;
   [SerializeField] private Image dishIcon;
   [SerializeField] private Image toppingIcon1;
   [SerializeField] private Image toppingIcon2;
@@ -61,5 +62,10 @@ public class OrderPanelController : MonoBehaviour
   public void HideOrderPanel()
   {
     panelContent.SetActive(false);
+  }
+
+  public Transform GetBackgroundTransform()
+  {
+    return background.transform;
   }
 }

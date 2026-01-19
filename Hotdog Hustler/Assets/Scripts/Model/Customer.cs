@@ -1,21 +1,22 @@
 using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
+using static Player;
 
 public class Customer : MonoBehaviour
 {
   [SerializeField] private float patienceTime = 15f;
+  [SerializeField] private SpriteRenderer spriteRenderer;
   private Order wantedOrder;
 
-  public void Setup(PreparedDishSO wantedDish)
-  {
-    wantedOrder = new(wantedDish);
-  }
+  public event EventHandler OnSetup;
 
   public void Setup(Order order)
   {
     wantedOrder = order;
+
+    OnSetup?.Invoke(this, EventArgs.Empty);
   }
 
   public Order GetOrder()

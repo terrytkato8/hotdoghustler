@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8279087507650494316, guid: 0b242e99f09c5c747b3dce801ab65f5d, type: 3}
   objectName: Bun_Burned
+  foodState: 2

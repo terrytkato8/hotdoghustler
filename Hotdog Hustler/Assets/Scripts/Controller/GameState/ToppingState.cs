@@ -23,7 +23,7 @@ public class ToppingState : DayState
     ToppingMenuPanelController.Hide();
   }
 
-  protected override void OnInteraction(object sender, EventArgs e)
+  protected override void OnRegularInteraction()
   {
     ToppingSO topping = ToppingMenuPanelController.GetSelectedTopping();
     if (topping != null)
@@ -38,6 +38,9 @@ public class ToppingState : DayState
 
   protected override void OnMove(object sender, OnMovementEventArgs e)
   {
-    ToppingMenuPanelController.Navigate(e.inputVector);
+    if (!TutorialManager.IsWaitingForInput())
+    {
+      ToppingMenuPanelController.Navigate(e.inputVector);
+    }
   }
 }

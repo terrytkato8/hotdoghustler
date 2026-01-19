@@ -13,11 +13,6 @@ public class ProgressionManager : MonoBehaviour
 
   private const string SAVE_FILE_NAME = "hotdog_save.json";
 
-  public void Init()
-  {
-    LoadGame();
-  }
-
   public void SaveGame()
   {
     SaveData data = new()
@@ -136,4 +131,11 @@ public class ProgressionManager : MonoBehaviour
   }
 
   public int GetDay() { return day; }
+
+  public void EndDay(double currentBalance)
+  {
+    IncreaseDay();
+    SaveGame();
+    SetCurrentBalance(currentBalance);
+  }
 }

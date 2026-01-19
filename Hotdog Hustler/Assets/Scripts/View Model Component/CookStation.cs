@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,10 @@ public class CookStation : KitchenObjectParent, IInteractable
   private enum State { Idle, Cooking, Cooked, Burnt }
   private State state;
   private float timer;
+
+  public static readonly StaticGameEvent OnStartedCooking = new();
+  public static readonly StaticGameEvent OnFinishedCooking = new();
+  public static readonly StaticGameEvent OnCreatedPreparedDish = new();
 
   private void Start()
   {
@@ -36,6 +41,7 @@ public class CookStation : KitchenObjectParent, IInteractable
             // Spawn Cooked Food
             SpawnItem(cookingRecipe.cookedOutput);
             Debug.Log("Food Cooked!");
+            OnFinishedCooking.Invoke(this, EventArgs.Empty);
           }
           break;
         case State.Cooked:
@@ -70,10 +76,11 @@ public class CookStation : KitchenObjectParent, IInteractable
       timer = 0f;
       state = State.Cooking;
       Debug.Log("Started Cooking...");
+      OnStartedCooking.Invoke(this, EventArgs.Empty);
     }
     else
     {
-      if (!player.HasKitchenObject())
+      if (!player.HasKitchenObject() && kitchenObject.GetFoodState() != FoodState.Raw)
       {
         kitchenObject.SetKitchenObjectParent(player);
         state = State.Idle;
@@ -89,6 +96,7 @@ public class CookStation : KitchenObjectParent, IInteractable
           kitchenObject.DestroySelf();
           player.SpawnItem(preparedDishRecipe.preparedDish);
           Debug.Log("Player combined ingredients into a dish.");
+          OnCreatedPreparedDish.Invoke(this, EventArgs.Empty);
         }
       }
     }

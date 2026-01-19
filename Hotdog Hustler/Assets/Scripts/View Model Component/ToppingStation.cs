@@ -3,7 +3,7 @@ using System;
 
 public class ToppingStation : MonoBehaviour, IInteractable
 {
-  public static event EventHandler OnToppingStationActivated;
+  public static readonly StaticGameEvent<KitchenObjectEventArgs> OnToppingStationActivated = new();
 
   [SerializeField] private PreparedDishSO preparedDishSO;
 
@@ -11,13 +11,15 @@ public class ToppingStation : MonoBehaviour, IInteractable
   {
     if (player.HasKitchenObject())
     {
-
-      if (player.GetKitchenObject().GetPreparedDishSO() != null) 
+      KitchenObject playerKitchenObject = player.GetKitchenObject();
+      if (playerKitchenObject.GetPreparedDishSO() != null) 
       {
 
         Debug.Log("Player put Hotdog on Topping Station."); //message for hotdog right now. can be any prepared dish in the future.
 
-        OnToppingStationActivated?.Invoke(this, EventArgs.Empty);
+        OnToppingStationActivated.Invoke(this,
+          new KitchenObjectEventArgs() { kitchenObject = playerKitchenObject }
+        );
       }
       else
       {

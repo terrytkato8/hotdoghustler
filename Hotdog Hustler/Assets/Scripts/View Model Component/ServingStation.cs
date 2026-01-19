@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class ServingStation : MonoBehaviour, IInteractable
 {
-  public static event EventHandler<OnServeEventArgs> OnObjectServed;
+  public static readonly StaticGameEvent<KitchenObjectEventArgs> OnObjectServed = new();
+
   public void Interact(Player player)
   {
     if (player.HasKitchenObject())
     {
-      OnObjectServed?.Invoke(this, new OnServeEventArgs
+      OnObjectServed?.Invoke(this, new KitchenObjectEventArgs
       {
-        servedObject = player.GetKitchenObject()
+        kitchenObject = player.GetKitchenObject()
       });
     }
   }

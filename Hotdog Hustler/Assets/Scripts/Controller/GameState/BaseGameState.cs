@@ -2,19 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public abstract class BaseGameState : State 
 {
   protected GameManager owner;
   protected ToppingMenuPanelController ToppingMenuPanelController { get { return owner.GetToppingMenuPanelController(); }}
-  protected ShopMenuPanelController ShopMenuPanelController { get { return owner.GetShopMenuPanelController(); } }
+  protected ShopMenuPanelController ShopMenuPanelController { get { return owner.GetShopMenuPanelController(); }}
   protected GameInput GameInput { get { return owner.GetGameInput(); }}
   protected Player Player { get { return owner.GetPlayer(); }}
-  protected CustomerManager CustomerManager { get {  return owner.GetCustomerManager(); }}
-  protected DayManager DayManager { get { return owner.GetDayManager(); } }
+  protected CustomerManager CustomerManager { get { return owner.GetCustomerManager(); }}
+  protected DayManager DayManager { get { return owner.GetDayManager(); }}
   protected ProgressionManager ProgressionManager { get { return owner.GetProgressionManager(); }}
   protected CookStation Grillstation { get { return owner.GetGrillStation(); }}
-  protected CookStation ToastStation {  get { return owner.GetToastStation(); }}
+  protected CookStation ToastStation { get { return owner.GetToastStation(); }}
+  protected ToppingStation ToppingStation { get { return owner.GetToppingStation(); } }
+  protected ServingStation ServingStation { get { return owner.GetServingStation(); } }
+  protected TutorialManager TutorialManager { get { return owner.GetTutorialManager(); }}
+  protected MainMenuPanelController MainMenuPanelController { get { return owner.GetMainMenuPanelController(); }}
 
   public override void Enter()
   {
@@ -36,7 +41,19 @@ public abstract class BaseGameState : State
   
   protected virtual void OnInteraction (object sender, EventArgs e)
   {
-    
+    if (TutorialManager.IsWaitingForInput())
+    {
+      TutorialManager.AdvanceTutorial();
+    }
+    else
+    {
+      OnRegularInteraction();
+    }
+  }
+
+  protected virtual void OnRegularInteraction()
+  {
+
   }
 
   protected virtual void OnMove(object sender, OnMovementEventArgs e)

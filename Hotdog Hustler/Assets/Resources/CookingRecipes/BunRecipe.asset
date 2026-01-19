@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rawInput: {fileID: 11400000, guid: 0a63a64ab7ab34c4bacb2b9a6d799fbd, type: 2}
   cookedOutput: {fileID: 11400000, guid: 8a9028ed92ed072479e3713a13571717, type: 2}
-  cookingTimeMax: 3
+  cookingTimeMax: 2
   burntOutput: {fileID: 11400000, guid: 5da1facee9015834aaa084c255dce52f, type: 2}
-  burningTimeMax: 5
+  burningTimeMax: 4

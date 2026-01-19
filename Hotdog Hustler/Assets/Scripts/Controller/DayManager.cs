@@ -1,25 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class DayManager : MonoBehaviour
 {
+  private class DayTimeEvent
+  {
+    public string name;
+    public float timeThreshold;
+    public StaticGameEvent eventToFire;
+    public bool hasFired;
+
+    public DayTimeEvent(string name, float threshold, StaticGameEvent evt)
+    {
+      this.name = name;
+      timeThreshold = threshold;
+      eventToFire = evt;
+      hasFired = false;
+    }
+  }
+
   [SerializeField] private DayClockPanelController dayClockPanelController;
   [SerializeField] private EndOfDayPanelController endOfDayPanelController;
   private List<ServedOrder> servedOrders;
 
   [SerializeField] private float dayTimer = 30f;
   private float timeRemaining;
-  private bool isActive = false;
+  private bool isActive;
 
-  public event EventHandler OnDayTimeIsUp;
-  private bool hasInvokedEvent;
+  public static readonly StaticGameEvent OnLunchStart = new();
+  public static readonly StaticGameEvent OnLunchEnd = new();
+  public static readonly StaticGameEvent OnDinnerStart = new();
+  public static readonly StaticGameEvent OnDinnerEnd = new();
+  public static readonly StaticGameEvent On10SecondsLeft = new();
+  public static readonly StaticGameEvent OnDayTimeIsUp = new();
+  private List<DayTimeEvent> scheduledEvents;
 
   public void Activate()
   {
     isActive = true;
-    hasInvokedEvent = false;
-    timeRemaining = dayTimer;
+    SetupDayEvents();
     servedOrders = new List<ServedOrder>();
     dayClockPanelController.Show(dayTimer);
   }
@@ -27,24 +50,55 @@ public class DayManager : MonoBehaviour
   public void Deactivate()
   {
     isActive = false;
-    hasInvokedEvent = false;
     dayClockPanelController.Hide();
     endOfDayPanelController.Hide();
   }
 
-  public void Update()
+  private void Update()
   {
-    if (isActive)
+    if (!isActive) return;
+
+    timeRemaining = Mathf.Max(0, timeRemaining -= Time.deltaTime);
+    dayClockPanelController.UpdateClock(timeRemaining);
+
+    foreach (var dayTimeEvent in scheduledEvents)
     {
-      timeRemaining = Mathf.Max(0, timeRemaining -= Time.deltaTime);
-      dayClockPanelController.UpdateClock(timeRemaining);
-      if (timeRemaining <= 0 && !hasInvokedEvent)
+      if (!dayTimeEvent.hasFired && timeRemaining <= dayTimeEvent.timeThreshold)
       {
-        OnDayTimeIsUp?.Invoke(this, EventArgs.Empty);
-        Debug.Log("day time is up!");
-        hasInvokedEvent = true;
+        dayTimeEvent.eventToFire?.Invoke(this, EventArgs.Empty);
+        dayTimeEvent.hasFired = true;
+        Debug.Log(dayTimeEvent.name);
       }
     }
+  }
+
+  private void SetupDayEvents()
+  {
+    timeRemaining = dayTimer;
+    scheduledEvents = new()
+    {
+      // 1. Lunch (e.g., starts at 70% remaining, ends at 50%)
+      new DayTimeEvent("Lunch Start", dayTimer * 0.7f, OnLunchStart),
+      new DayTimeEvent("Lunch End", dayTimer * 0.5f, OnLunchEnd),
+
+      // 2. Dinner (e.g., starts at 30% remaining, ends at 15%)
+      new DayTimeEvent("Dinner Start", dayTimer * 0.3f, OnDinnerStart),
+      new DayTimeEvent("Dinner End", dayTimer * 0.15f, OnDinnerEnd),
+
+      // 3. Global Warnings
+      new DayTimeEvent("10 Seconds", 10f, On10SecondsLeft),
+      new DayTimeEvent("Day Over", 0f, OnDayTimeIsUp)
+    };
+  }
+
+  public void ShowEndOfDayPanel(int day)
+  {
+    endOfDayPanelController.Show(
+      day,
+      GetCustomersServedCount(),
+      GetTotalAccuracyPercantage(),
+      GetTotalMoneyPaid()
+    );
   }
 
   public void AddCustomerServed(ServedOrder servedOrder)
@@ -78,15 +132,5 @@ public class DayManager : MonoBehaviour
       totalMoneyPaid += servedOrder.moneyPaid;
     }
     return totalMoneyPaid;
-  }
-
-  public void ShowEndOfDayPanel(int day)
-  {
-    endOfDayPanelController.Show(
-      day,
-      GetCustomersServedCount(), 
-      GetTotalAccuracyPercantage(), 
-      GetTotalMoneyPaid()
-    );
   }
 }

@@ -14,11 +14,15 @@ public class GameManager : StateMachine
   [SerializeField] private ShopMenuPanelController shopMenuPanelController;
   [SerializeField] private CookStation grillstation;
   [SerializeField] private CookStation toastStation;
+  [SerializeField] private ToppingStation toppingStation;
+  [SerializeField] private ServingStation servingStation;
+  [SerializeField] private TutorialManager tutorialManager;
+  [SerializeField] private MainMenuPanelController mainMenuPanelController;
 
   void Start ()
   {
     //ChangeState<MainMenuState>(); //when we have a mainmenustate, the game starts with that
-    ChangeState<InitGameState>();
+    ChangeState<MainMenuState>();
   }
 
   //GETTER
@@ -31,4 +35,8 @@ public class GameManager : StateMachine
   public ProgressionManager GetProgressionManager() { return progressionManager; }
   public CookStation GetGrillStation() { return grillstation; }
   public CookStation GetToastStation() { return toastStation; }
+  public ToppingStation GetToppingStation() { return toppingStation; }
+  public ServingStation GetServingStation() { return servingStation; }
+  public TutorialManager GetTutorialManager() { return tutorialManager; }
+  public MainMenuPanelController GetMainMenuPanelController() { return  mainMenuPanelController; }
 }

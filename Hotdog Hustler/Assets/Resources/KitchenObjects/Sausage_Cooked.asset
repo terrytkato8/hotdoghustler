@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2170221199244975493, guid: e7badc3ff74e6364ea6cc3b03e52db88, type: 3}
   objectName: Sausage_Cooked
+  foodState: 1

@@ -11,7 +11,7 @@ public class InitGameState : BaseGameState
 
   private IEnumerator Init()
   {
-    ProgressionManager.Init();
+    StaticGameEvent.ResetAllStaticEvents();
 
     yield return null;
     owner.ChangeState<InitDayState>();
