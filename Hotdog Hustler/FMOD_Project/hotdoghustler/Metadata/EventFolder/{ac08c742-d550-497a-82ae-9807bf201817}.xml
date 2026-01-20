@@ -5,7 +5,7 @@
 			<value>Green</value>
 		</property>
 		<property name="name">
-			<value>SFX_Env</value>
+			<value>Env</value>
 		</property>
 		<relationship name="folder">
 			<destination>{37e8333b-347d-4836-a2dd-73c9992ce0b4}</destination>

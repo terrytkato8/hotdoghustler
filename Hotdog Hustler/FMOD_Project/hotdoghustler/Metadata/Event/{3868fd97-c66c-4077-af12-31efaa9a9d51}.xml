@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{3868fd97-c66c-4077-af12-31efaa9a9d51}">
 		<property name="name">
-			<value>SFX_Game_Item_Pickup</value>
+			<value>Item_Pickup</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -46,6 +46,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{71daefd5-07fc-4e9f-8df6-0272f604b106}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{fd540e0f-fb1c-452d-852d-c8c284d1dce9}</destination>
 		</relationship>
@@ -53,7 +56,7 @@
 			<destination>{27c7c349-4849-4f1b-8a7b-5f50ba9b46ca}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{c0ee2f69-230f-4bc6-8609-86b700d76b33}">

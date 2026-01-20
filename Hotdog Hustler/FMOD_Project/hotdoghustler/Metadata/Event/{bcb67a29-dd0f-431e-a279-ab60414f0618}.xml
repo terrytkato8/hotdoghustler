@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{bcb67a29-dd0f-431e-a279-ab60414f0618}">
 		<property name="name">
-			<value>SFX_NPC_Custom_React_Disapprove</value>
+			<value>Custom_React_Disapprove</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -47,6 +47,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{654a6936-05ca-4b6d-a458-215a0b24eb5b}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{46f010af-47a7-4261-97c5-34863ae3cd8e}</destination>
 		</relationship>
@@ -54,10 +57,14 @@
 			<destination>{d1ff1d0c-3866-42d3-b2d5-d0cfd77d8544}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{490a2d84-0bb3-4b1b-90e9-a3312429166e}" />
+	<object class="EventAutomatableProperties" id="{490a2d84-0bb3-4b1b-90e9-a3312429166e}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{8bd142e3-c58d-4480-9e54-2d46ac5cfee1}" />
 	<object class="GroupTrack" id="{d4ee7be4-ec56-4f5f-8a07-a7536f5f5a1c}">
 		<relationship name="modules">
@@ -110,6 +117,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{6b67ffaf-f017-4856-a1cd-85cbdd5c2d09}">
+		<property name="volume">
+			<value>-10</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>

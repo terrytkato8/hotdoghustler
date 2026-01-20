@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{cfa6a578-1665-49bc-96c1-8d09412ef99b}">
 		<property name="name">
-			<value>SFX_Game_Toaster_Loop</value>
+			<value>Toaster_Loop</value>
 		</property>
 		<property name="outputFormat">
 			<value>5</value>
@@ -56,6 +56,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{7d21abc6-21bb-4924-bb7f-2e21cdceba0b}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{0f715770-93a1-4805-94e0-98728ed18794}</destination>
 		</relationship>
@@ -63,7 +66,7 @@
 			<destination>{c577a8ff-ac6b-455c-942f-0d80b9145f1d}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{f3ea2bd3-06c8-4756-8bce-4f46c8948568}">

@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{7681678f-cadf-4c70-a504-8197b4cf3df2}">
 		<property name="name">
-			<value>SFX_Env_Street_Bed</value>
+			<value>Street_Bed</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -50,6 +50,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{48616e20-45cd-4579-b34b-76c05c6c4e61}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{3b52d50b-4fbc-4138-9528-834df7ae1918}</destination>
 		</relationship>
@@ -57,7 +60,7 @@
 			<destination>{563b8265-9251-45bb-a15e-9d91e5d96a28}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{b2dc1f85-affd-4064-94b8-f1ffb1aab08b}" />

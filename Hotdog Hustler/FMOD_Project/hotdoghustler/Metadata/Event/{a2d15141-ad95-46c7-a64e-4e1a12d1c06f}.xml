@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{a2d15141-ad95-46c7-a64e-4e1a12d1c06f}">
 		<property name="name">
-			<value>SFX_Meta_Purchase_Success</value>
+			<value>Purchase_Success</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -49,6 +49,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{f3ee8c81-26fd-49f5-adef-68439a171af2}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{2b9a290e-741f-4167-bb49-db20eb50e8e3}</destination>
 		</relationship>
@@ -56,10 +59,14 @@
 			<destination>{a3eda11a-b275-4e99-85ed-7e255ed2bca8}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{04365a9b-0303-4b9e-83e3-83bc3b87b98d}" />
+	<object class="EventAutomatableProperties" id="{04365a9b-0303-4b9e-83e3-83bc3b87b98d}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{15e54147-83fc-4319-8e7f-0950f0bc46bc}" />
 	<object class="Timeline" id="{891e5174-bfd1-437e-a990-c4732d6667ba}">
 		<property name="isProxyEnabled">

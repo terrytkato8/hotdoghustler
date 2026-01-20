@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9222291482241607261
+--- !u!114 &-9063993260788553077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,14 +10,96 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/TEST
+  m_Name: event:/SFX/Game/Toaster_Loop
   m_EditorClassIdentifier: 
-  Path: event:/TEST
+  Path: event:/SFX/Game/Toaster_Loop
   Guid:
-    Data1: -1083697821
-    Data2: 1086912473
-    Data3: -971937885
-    Data4: 53347648
+    Data1: -811162248
+    Data2: 1237063269
+    Data3: 160285078
+    Data4: -1678168511
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -3325532747163076516}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12000
+--- !u!114 &-6457954730510057097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Env/Street_Bed
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Env/Street_Bed
+  Guid:
+    Data1: 1988192143
+    Data2: 1282460383
+    Data3: -1753152347
+    Data4: -230830156
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 180000
+--- !u!114 &-6275268097608926932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/NPC/Custom_React_Disapprove
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/NPC/Custom_React_Disapprove
+  Guid:
+    Data1: -1128891863
+    Data2: 1126096143
+    Data3: 1621850530
+    Data4: 403066689
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 609
+--- !u!114 &-6115718577874299352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/NPC/Custom_React_Approve
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/NPC/Custom_React_Approve
+  Guid:
+    Data1: 1001060026
+    Data2: 1260723023
+    Data3: 385404851
+    Data4: -1961735805
   Banks:
   - {fileID: 7964376078810319338}
   IsStream: 0
@@ -27,6 +109,57 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-3325532747163076516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Toaster_Loop/toast_ready
+  m_EditorClassIdentifier: 
+  Name: toast_ready
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473295498
+    data2: 2525458697
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-1045530158342109590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Toaster_Ready
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Toaster_Ready
+  Guid:
+    Data1: 265871103
+    Data2: 1159467103
+    Data3: 1209785733
+    Data4: -1011561954
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 801
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,17 +176,77 @@ MonoBehaviour:
   - {fileID: 1802176192785047421}
   - {fileID: 7964376078810319338}
   EditorEvents:
-  - {fileID: -9222291482241607261}
+  - {fileID: -6275268097608926932}
+  - {fileID: 5376434963445150862}
+  - {fileID: 5803329823612094039}
+  - {fileID: 9117645512036272184}
+  - {fileID: -9063993260788553077}
+  - {fileID: -6457954730510057097}
+  - {fileID: 8282443050439557311}
+  - {fileID: 95983925883084596}
+  - {fileID: -6115718577874299352}
+  - {fileID: 7761312147152406837}
+  - {fileID: 6542795659307594417}
+  - {fileID: -1045530158342109590}
   EditorParameters: []
   MasterBanks:
   - {fileID: 7964376078810319338}
   StringsBanks:
   - {fileID: 1802176192785047421}
   cacheVersion: 131857
-  cacheTime: 638998492853263876
+  cacheTime: 639045198083649719
   SerializableEventsDict:
-  - key: event:/TEST
+  - key: event:/SFX/NPC/Custom_React_Disapprove
     index: 0
+  - key: event:/SFX/Meta/Purchase_Success
+    index: 1
+  - key: event:/SFX/Game/Grill_Place
+    index: 2
+  - key: event:/SFX/Game/Grill_Loop
+    index: 3
+  - key: event:/SFX/Game/Toaster_Loop
+    index: 4
+  - key: event:/SFX/Env/Street_Bed
+    index: 5
+  - key: event:/SFX/Game/Item_Pickup
+    index: 6
+  - key: event:/SFX/Game/Toaster_Start
+    index: 7
+  - key: event:/SFX/NPC/Custom_React_Approve
+    index: 8
+  - key: event:/SFX/Game/Item_Drop
+    index: 9
+  - key: event:/SFX/Game/Grill_Ready
+    index: 10
+  - key: event:/SFX/Game/Toaster_Ready
+    index: 11
+--- !u!114 &95983925883084596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Toaster_Start
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Toaster_Start
+  Guid:
+    Data1: 1371193757
+    Data2: 1221454470
+    Data3: -481535854
+    Data4: 1883040078
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 750
 --- !u!114 &1802176192785047421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,11 +262,119 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638998492853263876
+  lastModified: 639045198083649719
   FileSizes:
   - Name: Desktop
-    Value: 766
+    Value: 1520
   Exists: 1
+--- !u!114 &5376434963445150862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Meta/Purchase_Success
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Meta/Purchase_Success
+  Guid:
+    Data1: -1563340479
+    Data2: 1187491221
+    Data3: 441339558
+    Data4: 1874907410
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5803329823612094039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Grill_Place
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Grill_Place
+  Guid:
+    Data1: -1133070731
+    Data2: 1195514974
+    Data3: 381819269
+    Data4: -1334678065
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1025
+--- !u!114 &6542795659307594417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Grill_Ready
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Grill_Ready
+  Guid:
+    Data1: -70941442
+    Data2: 1187164641
+    Data3: 1102267019
+    Data4: 672405852
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1921
+--- !u!114 &7761312147152406837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Item_Drop
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Item_Drop
+  Guid:
+    Data1: -287809062
+    Data2: 1207414034
+    Data3: 420526217
+    Data4: -1875020560
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 368
 --- !u!114 &7964376078810319338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,8 +390,62 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638998492853263876
+  lastModified: 639045198083634667
   FileSizes:
   - Name: Desktop
-    Value: 39680
+    Value: 2752448
   Exists: 1
+--- !u!114 &8282443050439557311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Item_Pickup
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Item_Pickup
+  Guid:
+    Data1: 946404759
+    Data2: 1081591404
+    Data3: -281996625
+    Data4: 1369283242
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 200
+--- !u!114 &9117645512036272184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Game/Grill_Loop
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Game/Grill_Loop
+  Guid:
+    Data1: 2064246391
+    Data2: 1280121896
+    Data3: 2088916368
+    Data4: 1321997973
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 20480

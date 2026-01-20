@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{bc76b675-1c5e-4742-8519-c216cf6d72b0}">
 		<property name="name">
-			<value>SFX_Game_Grill_Place</value>
+			<value>Grill_Place</value>
 		</property>
 		<property name="outputFormat">
 			<value>0</value>
@@ -46,6 +46,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{d6ed3558-5ed7-444f-a4d0-6f914899404f}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{a85b1a22-1617-49d9-afab-6bf92365855d}</destination>
 		</relationship>
@@ -53,10 +56,14 @@
 			<destination>{06ccdc73-8fc2-4690-829b-33188ea3a22c}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{0813d160-13d5-4194-bb37-c03cc1f87529}" />
+	<object class="EventAutomatableProperties" id="{0813d160-13d5-4194-bb37-c03cc1f87529}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{308c0c3b-77ae-489f-a598-dfb585ad4349}" />
 	<object class="GroupTrack" id="{928a6350-4697-43b6-8855-2e01aa2d9e1f}">
 		<relationship name="modules">

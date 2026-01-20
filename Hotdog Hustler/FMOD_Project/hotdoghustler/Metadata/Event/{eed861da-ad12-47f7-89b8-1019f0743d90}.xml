@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{eed861da-ad12-47f7-89b8-1019f0743d90}">
 		<property name="name">
-			<value>SFX_Game_Item_Drop</value>
+			<value>Item_Drop</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -46,6 +46,9 @@
 		</relationship>
 	</object>
 	<object class="MixerInput" id="{7c9be3ae-1eeb-42f9-8b36-5fd9e3137be5}">
+		<relationship name="masters">
+			<destination>{94774e5e-2860-4fa4-ad66-ec518589c2c2}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{5ba6d71e-6d31-4a56-9324-2b60cab8e3ea}</destination>
 		</relationship>
@@ -53,7 +56,7 @@
 			<destination>{6fd5fd67-ae1d-479c-a12b-fe93f3277937}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{34c392f9-8983-4df1-a53b-513e6cfed73a}</destination>
+			<destination>{41413a60-a63f-4b1a-95b9-2e59823b1afa}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{137414d5-bf38-4c8f-ad83-3e19a8952bb8}" />
