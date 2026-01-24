@@ -28,6 +28,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 12000
+--- !u!114 &-7393796216410437385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MX/MX_Music
+  m_EditorClassIdentifier: 
+  Path: event:/MX/MX_Music
+  Guid:
+    Data1: -796865505
+    Data2: 1111812533
+    Data3: 1484676771
+    Data4: 1564068902
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 81290
 --- !u!114 &-6457954730510057097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +160,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-2492962158050406248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MX/MX_Level_1
+  m_EditorClassIdentifier: 
+  Path: event:/MX/MX_Level_1
+  Guid:
+    Data1: 237489844
+    Data2: 1149257027
+    Data3: -255788656
+    Data4: 1516191893
+  Banks:
+  - {fileID: 7964376078810319338}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 54750
 --- !u!114 &-1045530158342109590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,13 +242,15 @@ MonoBehaviour:
   - {fileID: 7761312147152406837}
   - {fileID: 6542795659307594417}
   - {fileID: -1045530158342109590}
+  - {fileID: -7393796216410437385}
+  - {fileID: -2492962158050406248}
   EditorParameters: []
   MasterBanks:
   - {fileID: 7964376078810319338}
   StringsBanks:
   - {fileID: 1802176192785047421}
   cacheVersion: 131857
-  cacheTime: 639045198083649719
+  cacheTime: 639048702986048780
   SerializableEventsDict:
   - key: event:/SFX/NPC/Custom_React_Disapprove
     index: 0
@@ -220,6 +276,10 @@ MonoBehaviour:
     index: 10
   - key: event:/SFX/Game/Toaster_Ready
     index: 11
+  - key: event:/MX/MX_Music
+    index: 12
+  - key: event:/MX/MX_Level_1
+    index: 13
 --- !u!114 &95983925883084596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,10 +322,10 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639045198083649719
+  lastModified: 639048702986048780
   FileSizes:
   - Name: Desktop
-    Value: 1520
+    Value: 1624
   Exists: 1
 --- !u!114 &5376434963445150862
 MonoBehaviour:
@@ -390,10 +450,10 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639045198083634667
+  lastModified: 639048702986033743
   FileSizes:
   - Name: Desktop
-    Value: 2752448
+    Value: 4741952
   Exists: 1
 --- !u!114 &8282443050439557311
 MonoBehaviour:
