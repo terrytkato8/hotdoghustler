@@ -18,6 +18,7 @@ public class GameManager : StateMachine
   [SerializeField] private ServingStation servingStation;
   [SerializeField] private TutorialManager tutorialManager;
   [SerializeField] private MainMenuPanelController mainMenuPanelController;
+  [SerializeField] private MainAudio audioManager;
 
   void Start ()
   {
@@ -39,4 +40,5 @@ public class GameManager : StateMachine
   public ServingStation GetServingStation() { return servingStation; }
   public TutorialManager GetTutorialManager() { return tutorialManager; }
   public MainMenuPanelController GetMainMenuPanelController() { return  mainMenuPanelController; }
+  public MainAudio GetAudioManager() { return audioManager; }
 }

@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &261582576552707637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9063336159117981649}
+  - component: {fileID: 628867121225242292}
+  m_Layer: 0
+  m_Name: Customer_Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9063336159117981649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261582576552707637}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1408108438472595538}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &628867121225242292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261582576552707637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c60b21542514914bbc41fca173a9834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CustomerApproval:
+    Guid:
+      Data1: 1001060026
+      Data2: 1260723023
+      Data3: 385404851
+      Data4: -1961735805
+    Path: event:/SFX/NPC/Custom_React_Approve
+  CustomerDisapproval:
+    Guid:
+      Data1: -1128891863
+      Data2: 1126096143
+      Data3: 1621850530
+      Data4: 403066689
+    Path: event:/SFX/NPC/Custom_React_Disapprove
 --- !u!1 &998628972788346659
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,6 +195,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 99794010485190863}
+  - {fileID: 9063336159117981649}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9178328841323501178
@@ -151,5 +210,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97607f542f8d6794983ef0dd7f81a460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patienceTime: 15
-  spriteRenderer: {fileID: 0}
+  patienceTime: 30

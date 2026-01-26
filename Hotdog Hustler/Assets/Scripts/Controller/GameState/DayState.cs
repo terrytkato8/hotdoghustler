@@ -18,15 +18,21 @@ public abstract class DayState : BaseGameState
 
   private void OnDayTimeIsUp(object sender, EventArgs e)
   {
-    CustomerManager.Deactivate();
-    DayManager.Deactivate();
-    Grillstation.SetIdle();
-    ToastStation.SetIdle();
+    CustomerManager.Deactivate(() =>
+    {
+      Debug.Log("Day ended.");
 
-    KitchenObject playerKitchenObject = Player.GetKitchenObject();
-    if (playerKitchenObject != null)
-      Player.GetKitchenObject().DestroySelf();
+      DayManager.Deactivate();
+      Grillstation.SetIdle();
+      ToastStation.SetIdle();
 
-    owner.ChangeState<EndOfDayState>();
+      KitchenObject playerKitchenObject = Player.GetKitchenObject();
+      if (playerKitchenObject != null)
+      {
+        playerKitchenObject.DestroySelf();
+      }
+
+      owner.ChangeState<EndOfDayState>();
+    });
   }
 }

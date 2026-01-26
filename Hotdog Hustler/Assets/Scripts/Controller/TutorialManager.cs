@@ -210,7 +210,7 @@ public class TutorialManager : MonoBehaviour
 
   private void CookStation_OnStartedCooking(object sender, EventArgs e)
   {
-    if (currentStep == TutorialStep.CookBunAndSausage)
+    if (currentStep == TutorialStep.WaitForCook || currentStep == TutorialStep.CookBunAndSausage)
     {
       var station = sender as CookStation;
       if (station == grillStation) grillStationStartedCooking = true;
@@ -225,7 +225,7 @@ public class TutorialManager : MonoBehaviour
 
   private void CookStation_OnFinishedCooking(object sender, EventArgs e)
   {
-    if (currentStep == TutorialStep.WaitForCook)
+    if (currentStep == TutorialStep.WaitForCook || currentStep == TutorialStep.CookBunAndSausage)
     {
       var station = sender as CookStation;
       if (station == grillStation) grillStationFinishedCooking = true;

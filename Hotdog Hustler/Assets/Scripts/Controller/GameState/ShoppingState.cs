@@ -67,6 +67,7 @@ public class ShoppingState : BaseGameState
         currentBalance -= topping.unlockPrice;
         ProgressionManager.UnlockTopping(topping);
         ShopMenuPanelController.BuyTopping(topping, currentBalance);
+        AudioManager.PurchaseItem();
 
         if (TutorialManager.IsActive())
           TutorialManager.OnShoppingScreenExited();

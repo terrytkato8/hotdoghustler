@@ -7,6 +7,7 @@ public class EndOfDayState : BaseGameState
   {
     base.Enter();
     Debug.Log("end of day reached!!");
+    AudioManager.EndDay();
 
     int day = ProgressionManager.GetDay();
     DayManager.ShowEndOfDayPanel(day);

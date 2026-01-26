@@ -20,6 +20,7 @@ public abstract class BaseGameState : State
   protected ServingStation ServingStation { get { return owner.GetServingStation(); } }
   protected TutorialManager TutorialManager { get { return owner.GetTutorialManager(); }}
   protected MainMenuPanelController MainMenuPanelController { get { return owner.GetMainMenuPanelController(); }}
+  protected MainAudio AudioManager { get { return owner.GetAudioManager(); }}
 
   public override void Enter()
   {

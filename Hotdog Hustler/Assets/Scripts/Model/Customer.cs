@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Player;
@@ -7,10 +8,12 @@ using static Player;
 public class Customer : MonoBehaviour
 {
   [SerializeField] private float patienceTime = 15f;
-  [SerializeField] private SpriteRenderer spriteRenderer;
   private Order wantedOrder;
 
+  private bool isFrontCustomer;
+
   public event EventHandler OnSetup;
+  public event EventHandler<OnReactionEventArgs> OnReaction;
 
   public void Setup(Order order)
   {
@@ -18,18 +21,28 @@ public class Customer : MonoBehaviour
 
     OnSetup?.Invoke(this, EventArgs.Empty);
   }
-
-  public Order GetOrder()
+  
+  public void StartPatienceTimer()
   {
-    return wantedOrder;
+    isFrontCustomer = true;
+  }
+
+  private void Update()
+  {
+    if (isFrontCustomer)
+    { 
+      patienceTime -= Time.deltaTime;
+    }
   }
 
   public double ValidateOrder(Order playerPlate)
   {
-    if (wantedOrder.wantedDish != playerPlate.wantedDish)
-      return 0;
+    if (playerPlate == null) return 0;
 
     double accuracy = 1.0;
+
+    if (wantedOrder.wantedDish != playerPlate.wantedDish)
+      accuracy -= 0.5;
 
     int maxCount = Math.Max(wantedOrder.wantedToppings?.Count ?? 0, playerPlate.wantedToppings?.Count ?? 0);
     bool firstError = true;
@@ -45,7 +58,7 @@ public class Customer : MonoBehaviour
       {
         if (firstError)
         {
-          accuracy = 0.5;
+          accuracy -= 0.5;
           firstError = false;
         }
         else
@@ -58,21 +71,23 @@ public class Customer : MonoBehaviour
     return Math.Max(accuracy, 0);
   }
 
-  public void PlayReaction(bool isReactionPositive) //this will later be based on percantage and the CustomerReaction Enum, instead of a bool. Also it will be a coroutine.
+  public IEnumerator ReactToFood(double accuracy) 
   {
-    if (isReactionPositive)
-      Debug.Log("Customer Happy!");
-    else
-      Debug.Log("Customer not happy and disappointed...");
+    bool isHappy = accuracy == 1.0;
+    float reactionDuration = 0f;
+
+    OnReaction?.Invoke(this, new OnReactionEventArgs
+    {
+      isHappy = isHappy,
+      SetDurationCallback = (duration) => reactionDuration = duration
+    });
+
+    if (reactionDuration <= 0) reactionDuration = 1.0f;
+    yield return new WaitForSeconds(reactionDuration);
   }
 
-  public void SetPosition (Vector3 position)
-  {
-    transform.position = position;
-  }
-
-  public float GetPatienceTime()
-  {
-    return patienceTime;
-  }
+  public void SetPosition(Vector3 position) => transform.position = position;
+  public Order GetOrder() => wantedOrder;
+  public float GetPatienceTime() => patienceTime;
+  public bool IsPatienceExhausted() => patienceTime <= 0;
 }

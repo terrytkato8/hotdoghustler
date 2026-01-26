@@ -14,6 +14,7 @@ public class InitDayState : BaseGameState
     int currentDay = ProgressionManager.GetDay();
 
     Debug.Log("starting Day " + currentDay);
+    AudioManager.StartDay();
 
     OrderPanelController OrderPanelController = CustomerManager.GetOrderPanelController();
     int tutorialDay = 1; //activate tutorial on day 1

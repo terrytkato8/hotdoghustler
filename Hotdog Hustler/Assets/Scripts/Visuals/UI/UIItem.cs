@@ -15,6 +15,6 @@ public class UIItem : MonoBehaviour
       selectionOutline.SetActive(isSelected);
     }
 
-    transform.localScale = isSelected ? Vector3.one * 1.2f : Vector3.one;
+    //transform.localScale = isSelected ? Vector3.one * 1.2f : Vector3.one;
   }
 }

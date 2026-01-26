@@ -46,10 +46,9 @@ public class OrderPanelController : MonoBehaviour
 
   public void UpdateVisuals(float timerInSeconds)
   {
-    int timeLeftInSeconds = Mathf.FloorToInt(timerInSeconds);
-    timerText.text = timeLeftInSeconds + " seconds left";
+    timerText.text = FormatTime(timerInSeconds);
 
-    if (timeLeftInSeconds <= 5f)
+    if (timerInSeconds <= 5f)
     {
       timerText.color = Color.red;
     }
@@ -67,5 +66,12 @@ public class OrderPanelController : MonoBehaviour
   public Transform GetBackgroundTransform()
   {
     return background.transform;
+  }
+
+  private string FormatTime(float totalSeconds)
+  {
+    int minutes = Mathf.FloorToInt(totalSeconds / 60f);
+    int seconds = Mathf.FloorToInt(totalSeconds % 60f);
+    return $"{minutes:00}:{seconds:00}";
   }
 }

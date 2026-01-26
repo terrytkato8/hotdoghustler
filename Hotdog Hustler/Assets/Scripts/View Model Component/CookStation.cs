@@ -16,6 +16,7 @@ public class CookStation : KitchenObjectParent, IInteractable
   public static readonly StaticGameEvent OnStartedCooking = new();
   public static readonly StaticGameEvent OnFinishedCooking = new();
   public static readonly StaticGameEvent OnCreatedPreparedDish = new();
+  public static readonly StaticGameEvent OnKitchenObjectRemoved = new();
 
   private void Start()
   {
@@ -37,6 +38,13 @@ public class CookStation : KitchenObjectParent, IInteractable
           {
             state = State.Cooked;
             timer = 0f; // Reset for burning phase
+
+            // Destroy Cooked, Spawn Burnt
+            if (kitchenObject != null)
+            {
+              Destroy(kitchenObject.gameObject); // Simple destroy for now
+              kitchenObject = null; // Clear reference
+            }
 
             // Spawn Cooked Food
             SpawnItem(cookingRecipe.cookedOutput);
@@ -72,34 +80,81 @@ public class CookStation : KitchenObjectParent, IInteractable
   {
     if (!HasKitchenObject())
     {
-      SpawnItem(cookingRecipe.rawInput);
-      timer = 0f;
-      state = State.Cooking;
-      Debug.Log("Started Cooking...");
-      OnStartedCooking.Invoke(this, EventArgs.Empty);
+      StartCooking();
+      return;
+    }
+
+    if (!player.HasKitchenObject())
+    {
+      TryPickupFood(player);
+      return;
     }
     else
     {
-      if (!player.HasKitchenObject() && kitchenObject.GetFoodState() != FoodState.Raw)
-      {
-        kitchenObject.SetKitchenObjectParent(player);
-        state = State.Idle;
-        Debug.Log("Player picked up food.");
-      }
-      else
-      {
-        KitchenObject playerItem = player.GetKitchenObject();
-        List<KitchenObjectSO> KitchenObjectSOList = new() {kitchenObject.GetKitchenObjectSO(), playerItem.GetKitchenObjectSO() };
-        if (KitchenObjectSOList.All(preparedDishRecipe.ingredients.Contains)) //this works for now, if the recipes keep having only 2 items
-        {
-          playerItem.DestroySelf();
-          kitchenObject.DestroySelf();
-          player.SpawnItem(preparedDishRecipe.preparedDish);
-          Debug.Log("Player combined ingredients into a dish.");
-          OnCreatedPreparedDish.Invoke(this, EventArgs.Empty);
-        }
-      }
+      TryCombineIngredients(player);
     }
+  }
+
+  private void StartCooking()
+  {
+    SpawnItem(cookingRecipe.rawInput);
+
+    timer = 0f;
+    state = State.Cooking;
+
+    Debug.Log("Started Cooking...");
+    OnStartedCooking.Invoke(this, EventArgs.Empty);
+  }
+
+  private void TryPickupFood(Player player)
+  {
+    if (kitchenObject.GetFoodState() == FoodState.Raw)
+    {
+      return;
+    }
+
+    kitchenObject.SetKitchenObjectParent(player);
+
+    state = State.Idle;
+
+    Debug.Log("Player picked up food.");
+    OnKitchenObjectRemoved.Invoke(this, EventArgs.Empty);
+  }
+
+  private void TryCombineIngredients(Player player)
+  {
+    KitchenObject playerItem = player.GetKitchenObject();
+    KitchenObject stationItem = this.GetKitchenObject();
+
+    if (IsValidCombination(playerItem.GetKitchenObjectSO(), stationItem.GetKitchenObjectSO()))
+    {
+      PerformCombination(player, playerItem, stationItem);
+    }
+  }
+
+  private bool IsValidCombination(KitchenObjectSO itemA, KitchenObjectSO itemB)
+  {
+    if (preparedDishRecipe.ingredients.Count != 2) return false;
+
+    bool hasItemA = preparedDishRecipe.ingredients.Contains(itemA);
+    bool hasItemB = preparedDishRecipe.ingredients.Contains(itemB);
+
+    bool isDistinct = itemA != itemB;
+
+    return hasItemA && hasItemB && isDistinct;
+  }
+
+  private void PerformCombination(Player player, KitchenObject playerItem, KitchenObject stationItem)
+  {
+    playerItem.DestroySelf();
+    stationItem.DestroySelf();
+
+    player.SpawnItem(preparedDishRecipe.preparedDish); // Assuming this extension/method exists
+
+    state = State.Idle;
+
+    Debug.Log("Player combined ingredients into a dish.");
+    OnCreatedPreparedDish.Invoke(this, EventArgs.Empty);
   }
 
   public void SetIdle()

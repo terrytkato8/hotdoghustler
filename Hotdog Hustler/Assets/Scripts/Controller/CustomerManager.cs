@@ -1,202 +1,165 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
+  [Header("References")]
   [SerializeField] private GameObject customerPrefab;
-  //[SerializeField] private Transform spawnPoint;    // this will be needed later, when the customers spawn outside the screen and walk in. For now customer spawn at the queue points, when there is a free one.
   [SerializeField] private Transform[] queuePoints;
-
+  //[SerializeField] private Transform spawnPoint;    // this will be needed later, when the customers spawn outside the screen and walk in. For now customer spawn at the queue points, when there is a free one.
   [SerializeField] private OrderPanelController orderPanelController;
-  private float orderTimerInSeconds;
-
+  [SerializeField] private OrderGenerator orderGenerator;
   [SerializeField] private PreparedDishListSO preparedDishListSO;
-  private List<PreparedDishSO> preparedDishList;
-  private List<ToppingSO> toppingList;
 
-  private List<Customer> customersInLine = new ();
-  private Customer frontCustomer;
-  private float spawnTimer;
-
-  private bool customerSpawnStop;
-
-  [Header("Spawn Settings")]
+  [Header("Settings")]
   [SerializeField] private float minSpawnDelay = 2f;
   [SerializeField] private float maxSpawnDelay = 7f;
   [SerializeField] private float customerGrowthPerDay = 0.15f;
   [SerializeField] private float rushHourSpawnMultiplier = 1.5f;
-  private float customerSpawnMultiplier = 1;
-  private float maxSpawnDelayDayAdjusted;
   [SerializeField] private float maxSpawnDelayDayStart = 4f;
+  [SerializeField] private float minSpawnDelayDayStart = 1f;
 
+  //State
+  private List<Customer> customersInLine = new();
+  private Customer frontCustomer;
+  private float spawnTimer;
+  private float currentSpawnMultiplier = 1;
+  private float currentMaxSpawnDelay;
+  private bool isSpawningPaused;
+  private bool isActive;
+
+  //Tutorial
   private Order tutorialOrder;
 
+  //Events
   public static readonly StaticGameEvent<OnCustomerServedEventArgs> OnCustomerServed = new();
   public static readonly StaticGameEvent OnCustomerSpawned = new();
 
-  private bool isActive;
 
-  private void Awake()
-  {
-    preparedDishList = preparedDishListSO.preparedDishList; //when we have multiple dishes, this will also be set in the Activate() method.
-  }
-
-  private void AddListeners()
-  {
-    ServingStation.OnObjectServed.AddListener(OnObjectServed);
-    DayManager.OnLunchStart.AddListener(OnRushHourStart);
-    DayManager.OnDinnerStart.AddListener(OnRushHourStart);
-    DayManager.On10SecondsLeft.AddListener(On10SecondsLeft);
-  }
-
-  private void RemoveListeners()
-  {
-    ServingStation.OnObjectServed.RemoveListener(OnObjectServed);
-    DayManager.OnLunchStart.RemoveListener(OnRushHourStart);
-    DayManager.OnDinnerStart.RemoveListener(OnRushHourStart);
-    DayManager.On10SecondsLeft.RemoveListener(On10SecondsLeft);
-  }
+  // --- SETUP ---
 
   public void Activate(List<ToppingSO> toppingList, int day, bool needTutorial)
   {
-    AddListeners();
+    orderGenerator = new(preparedDishListSO.preparedDishList, toppingList);
 
-    spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelayDayStart);
-    customerSpawnStop = false;
+    CalculateDifficulty(day);
+    SetupTutorial(needTutorial);
 
-    double customerGrowthRate = Math.Pow(1 - customerGrowthPerDay, day);
-    maxSpawnDelayDayAdjusted = maxSpawnDelay * (float)customerGrowthRate;
-
-    Debug.Log("spawn delay: " + maxSpawnDelayDayAdjusted);
-
-    this.toppingList = toppingList;
+    spawnTimer = UnityEngine.Random.Range(minSpawnDelayDayStart, maxSpawnDelayDayStart);
+    isSpawningPaused = false;
     isActive = true;
 
-    if (needTutorial)
-    {
-      SetTutorialOrder();
-    }
+    ServingStation.OnObjectServed.AddListener(OnObjectServed);
+    DayManager.OnLunchStart.AddListener(OnRushHourStart);
+    DayManager.OnDinnerStart.AddListener(OnRushHourStart);
+    DayManager.OnLunchEnd.AddListener(OnRushHourEnd);
+    DayManager.OnDinnerEnd.AddListener(OnRushHourEnd);
+    DayManager.On10SecondsLeft.AddListener(On10SecondsLeft);
   }
 
-  public void Deactivate()
+  public void Deactivate(Action OnCleanupComplete)
   {
-    RemoveListeners();
-
-    ClearCustomerQueue();
     isActive = false;
-  }
+    StartCoroutine(ClearCustomerQueue(OnCleanupComplete));
 
-  public bool IsActive() 
-  {
-    return isActive;
+    ServingStation.OnObjectServed.RemoveListener(OnObjectServed);
+    DayManager.OnLunchStart.RemoveListener(OnRushHourStart);
+    DayManager.OnDinnerStart.RemoveListener(OnRushHourStart);
+    DayManager.OnLunchEnd.RemoveListener(OnRushHourEnd);
+    DayManager.OnDinnerEnd.RemoveListener(OnRushHourEnd);
+    DayManager.On10SecondsLeft.RemoveListener(On10SecondsLeft);
   }
 
   void Update()
   {
-    if (isActive)
-    {
-      SpawnLogic();
-      OrderLogic();
-    }
+    if (!isActive) return;
+    
+    HandleSpawning();
+    HandleFrontCustomer();
   }
 
-  private void SpawnLogic()
+  // --- CUSTOMER SPAWN & DESPAWN LOGIC ---
+
+  private void HandleSpawning()
   {
     //This check will be later removed, since when a sixth customer spawns, he will just walk by.
-    if (customersInLine.Count < queuePoints.Length)
-    {
-      spawnTimer -= Time.deltaTime * customerSpawnMultiplier;
+    if (customersInLine.Count >= queuePoints.Length || isSpawningPaused) return;
+    
+    spawnTimer -= Time.deltaTime * currentSpawnMultiplier;
 
-      if (spawnTimer <= 0f && !customerSpawnStop)
-      {
-        SpawnCustomer();
-        spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelayDayAdjusted);
-      }
+    if (spawnTimer <= 0f)
+    {
+      SpawnCustomer();
+      spawnTimer = UnityEngine.Random.Range(minSpawnDelay, currentMaxSpawnDelay);
     }
   }
 
-  private void OrderLogic()
+  private void HandleFrontCustomer()
   {
-    if (GetFrontCustomer() == null) return;
+    if (customersInLine.Count == 0 || tutorialOrder != null) return;
 
-    bool isTimerPaused = tutorialOrder != null;
-    if (!isTimerPaused)
+    orderPanelController.UpdateVisuals(Mathf.Max(0, frontCustomer.GetPatienceTime()));
+
+    if (frontCustomer.IsPatienceExhausted())
     {
-      orderTimerInSeconds -= Time.deltaTime;
+      StartCoroutine(ServeCustomer(frontCustomer, null));
     }
-
-    orderPanelController.UpdateVisuals(Mathf.Max(0, orderTimerInSeconds));
-
-    if (orderTimerInSeconds <= 0)
-    {
-      FailOrder();
-    }
-  }
-
-  private void FailOrder()
-  {
-    ServedOrder failedOrder = new(null, 0, 0);
-    OnCustomerServed.Invoke(this, new OnCustomerServedEventArgs { servedOrder = failedOrder });
-
-    CustomerLeaves(frontCustomer);
   }
 
   private void SpawnCustomer()
   {
     int queueIndex = customersInLine.Count;
-    Vector3 targetPos = queuePoints[queueIndex].position;
 
-    GameObject customerGameObject = Instantiate(customerPrefab, targetPos, Quaternion.identity);
+    GameObject customerGameObject = Instantiate(customerPrefab, queuePoints[queueIndex].position, Quaternion.identity);
     Customer newCustomer = customerGameObject.GetComponent<Customer>();
 
+    Order newOrder;
     if (tutorialOrder != null)
     {
-      newCustomer.Setup(tutorialOrder);
-      customerSpawnStop = true;
+      newOrder = tutorialOrder;
+      isSpawningPaused = true;
     }
     else
     {
-      newCustomer.Setup(GetRandomOrder());
+      newOrder = orderGenerator.GenerateRandomOrder();
     }
+
+    newCustomer.Setup(newOrder);
     customersInLine.Add(newCustomer);
 
     if (queueIndex == 0) //if this customer spawns at the frontspot, update the Order Panel
     {
-      frontCustomer = newCustomer;
-      orderPanelController.ShowOrderPanel(frontCustomer.GetOrder());
-      orderTimerInSeconds = frontCustomer.GetPatienceTime();
+      ActivateFrontCustomer();
     }
 
     OnCustomerSpawned.Invoke(this, EventArgs.Empty);
   }
 
-  public Customer GetFrontCustomer()
+  private void ActivateFrontCustomer()
   {
-    if (customersInLine.Count > 0)
-      return customersInLine[0];
-    else
-      return null;
+    frontCustomer = customersInLine[0];
+    frontCustomer.StartPatienceTimer();
+    orderPanelController.ShowOrderPanel(frontCustomer.GetOrder());
   }
 
-  public void CustomerLeaves(Customer customer)
+  private void CustomerLeaves(Customer customer)
   {
-    if (customer != null && customersInLine.Contains(customer))
+    if (!customersInLine.Contains(customer)) return;
+
+    customersInLine.Remove(customer);
+    Destroy(customer.gameObject);
+
+    if (tutorialOrder != null)
     {
-      customersInLine.Remove(customer);
-      Destroy(customer.gameObject);
-      frontCustomer = null;
-      orderPanelController.HideOrderPanel();
-      UpdateQueuePositions();
-
-      if (tutorialOrder != null)
-      {
-        customerSpawnStop = false;
-        tutorialOrder = null;
-      }
-
-      Debug.Log("customer leaves");
+      isSpawningPaused = false;
+      tutorialOrder = null;
     }
+
+    Debug.Log("customer leaves");
+
+    UpdateQueuePositions();
   }
 
   private void UpdateQueuePositions()
@@ -206,115 +169,117 @@ public class CustomerManager : MonoBehaviour
       customersInLine[i].SetPosition(queuePoints[i].position);
     }
 
-    frontCustomer = GetFrontCustomer();
-    if (frontCustomer != null)
+    if (customersInLine.Count > 0)
     {
-      orderPanelController.ShowOrderPanel(frontCustomer.GetOrder());
-      orderTimerInSeconds = frontCustomer.GetPatienceTime();
-    }
-  }
-
-  private void ClearCustomerQueue()
-  {
-    int customersInLineCount = customersInLine.Count;
-    for (int i = 0; i < customersInLineCount; i++)
-    {
-      CustomerLeaves(customersInLine[0]);
-    }
-  }
-
-  private Order GetRandomOrder()
-  {
-    int dishIndex = UnityEngine.Random.Range(0, preparedDishList.Count);
-    PreparedDishSO wantedDish = preparedDishList[dishIndex];
-
-    //int wantedToppingAmount = GetRandomToppingAmount();
-    int wantedToppingAmount = 2; // set to 2 right now for testing, GetRandomToppingAmount() otherwise.
-    List<ToppingSO> wantedToppingList = new();
-    for (int i = 0; i < wantedToppingAmount; i++)
-    {
-      int toppingIndex = UnityEngine.Random.Range(0, toppingList.Count);
-      ToppingSO wantedTopping = toppingList[toppingIndex];
-      wantedToppingList.Add(wantedTopping);
-    }
-
-    Order wantedOrder = new(wantedDish, wantedToppingList);
-    return wantedOrder;
-  }
-
-  private int GetRandomToppingAmount()
-  {
-    float randomValue = UnityEngine.Random.value; // Returns a float between 0.0 and 1.0
-
-    //10% chance for no toppings, 45% chance for 1 and 2 topppings each
-    if (randomValue < 0.1f)
-    {
-      return 0;
-    }
-    else if (randomValue < 0.55f)
-    {
-      return 1;
+      ActivateFrontCustomer();
     }
     else
     {
-      return 2;
+      frontCustomer = null;
     }
   }
 
-  private void SetTutorialOrder()
+  private IEnumerator ClearCustomerQueue(Action onComplete)
   {
-    PreparedDishSO wantedDish = preparedDishList[0]; //HotDog
+    List<Coroutine> activeRoutines = new();
+    foreach (Customer c in customersInLine)
+    {
+      Coroutine routine = StartCoroutine(ServeCustomer(c, null));
+      activeRoutines.Add(routine);
+    }
 
-    List<ToppingSO> wantedToppingList = new();
-    wantedToppingList.Add(toppingList[0]); //Ketchup
-    wantedToppingList.Add(toppingList[1]); //Mustard
+    foreach (Coroutine routine in activeRoutines)
+    {
+      yield return routine;
+    }
 
-    tutorialOrder = new(wantedDish, wantedToppingList);
+    Debug.Log("All customers have left. Invoking callback.");
+    onComplete?.Invoke();
   }
 
-  private double CalculateMoneyPaid(Order order, double accuracy)
-  {
-    double totalPrice = order.GetTotalPrice();
-    return Math.Round(totalPrice * accuracy, 2);
-  }
+  // --- SERVING LOGIC ---
 
   private void OnObjectServed(object sender, KitchenObjectEventArgs e)
   {
     if (frontCustomer == null) return;
 
-    KitchenObject playerKitchenObject = e.kitchenObject;
+    StartCoroutine(ServeCustomer(frontCustomer, e.kitchenObject));
+  }
 
-    Order playerPlate = new(playerKitchenObject.GetPreparedDishSO(), playerKitchenObject.GetToppings());
-    double accuracy = frontCustomer.ValidateOrder(playerPlate);
-    double moneyPaid = CalculateMoneyPaid(playerPlate, accuracy);
+  private IEnumerator ServeCustomer(Customer customer, KitchenObject playerKitchenObject)
+  {
+    ServedOrder servedOrder = ProcessOrderData(customer, playerKitchenObject);
 
-    ServedOrder servedOrder = new(playerPlate, accuracy, moneyPaid);
     OnCustomerServed.Invoke(this, new OnCustomerServedEventArgs
     {
       servedOrder = servedOrder
     });
 
-    playerKitchenObject.DestroySelf();
-    CustomerLeaves(frontCustomer);
+    orderPanelController.HideOrderPanel();
+
+    yield return StartCoroutine(customer.ReactToFood(servedOrder.accuracy));
+
+    CustomerLeaves(customer);
   }
 
-  private void OnRushHourStart(object sender, EventArgs e)
+  private ServedOrder ProcessOrderData(Customer customer, KitchenObject playerKitchenObject)
   {
-    customerSpawnMultiplier = rushHourSpawnMultiplier;
+    Order playerPlate = null;
+
+    if (playerKitchenObject != null)
+    {
+      playerPlate = new Order(
+          playerKitchenObject.GetPreparedDishSO(),
+          playerKitchenObject.GetToppings()
+      );
+      playerKitchenObject.DestroySelf();
+    }
+
+    double accuracy = customer.ValidateOrder(playerPlate);
+    double moneyPaid = CalculateMoneyPaid(playerPlate, accuracy);
+
+    return new ServedOrder(playerPlate, accuracy, moneyPaid);
   }
 
-  private void OnRushHourEnd(object sender, EventArgs e)
+  // --- HELPERS ---
+
+  private void CalculateDifficulty(int day)
   {
-    customerSpawnMultiplier = 1.0f; // Reset Spawn Multiplier
+    double growth = Math.Pow(1 - customerGrowthPerDay, day);
+    currentMaxSpawnDelay = maxSpawnDelay * (float)growth;
+    Debug.Log("spawn delay: " + currentMaxSpawnDelay);
   }
 
-  private void On10SecondsLeft(object sender, EventArgs e)
+  private double CalculateMoneyPaid(Order order, double accuracy)
   {
-    customerSpawnStop = true;
+    if (order == null || accuracy == 0)
+      return 0;
+
+    double totalPrice = order.GetTotalPrice();
+    return Math.Round(totalPrice * accuracy, 2);
   }
 
-  public OrderPanelController GetOrderPanelController()
+  private void SetupTutorial(bool needTutorial)
   {
-    return orderPanelController;
+    if (needTutorial)
+    {
+      // Hardcoded tutorial: Hotdog + Ketchup + Mustard (Indices depend on your lists)
+      tutorialOrder = orderGenerator.GenerateSpecificOrder(0, new int[] { 0, 1 });
+    }
+    else
+    {
+      tutorialOrder = null;
+    }
   }
+
+  // --- EVENT LISTENERS ---
+
+  private void OnRushHourStart(object sender, EventArgs e) => currentSpawnMultiplier = rushHourSpawnMultiplier;
+  private void OnRushHourEnd(object sender, EventArgs e) => currentSpawnMultiplier = 1.0f; // Reset Spawn Multiplier
+  private void On10SecondsLeft(object sender, EventArgs e) => isSpawningPaused = true;
+
+  // --- GETTER ---
+
+  public OrderPanelController GetOrderPanelController() => orderPanelController;
+
 }

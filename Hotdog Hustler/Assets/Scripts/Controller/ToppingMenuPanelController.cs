@@ -8,7 +8,8 @@ public class ToppingMenuPanelController : MonoBehaviour
   [SerializeField] private Sprite exitIconSprite;
 
   [Header("UI References")]
-  [SerializeField] private Transform iconsContainer;
+  [SerializeField] private List<Transform> toppingSlots;
+  [SerializeField] private Transform exitButtonSlot;
   [SerializeField] private GameObject itemTemplate;
   private List<ToppingUIItem> uiItems = new();
 
@@ -35,16 +36,16 @@ public class ToppingMenuPanelController : MonoBehaviour
 
   private void InitializeButtons()
   {
-    foreach (Transform child in iconsContainer)
-    {
-      if (child.gameObject == itemTemplate) continue;
-      Destroy(child.gameObject);
-    }
-    uiItems.Clear();
+    ClearPreviousButtons();
 
+    int slotIndex = 0;
     foreach (ToppingSO topping in toppingList)
     {
-      CreateButton(topping);
+      if (slotIndex >= toppingSlots.Count)
+        break;
+
+      CreateButton(toppingSlots[slotIndex], topping);
+      slotIndex++;
     }
 
     //Create Exit Button (Last item)
@@ -53,9 +54,9 @@ public class ToppingMenuPanelController : MonoBehaviour
     UpdateVisuals();
   }
 
-  private void CreateButton(ToppingSO topping)
+  private void CreateButton(Transform slot, ToppingSO topping)
   {
-    ToppingUIItem uiItem = InstantiateToppUIItem();
+    ToppingUIItem uiItem = InstantiateToppUIItem(slot);
 
     uiItem.SetToppingData(topping);
 
@@ -64,19 +65,29 @@ public class ToppingMenuPanelController : MonoBehaviour
 
   private void CreateButton(Sprite sprite)
   {
-    ToppingUIItem uiItem = InstantiateToppUIItem();
+    ToppingUIItem uiItem = InstantiateToppUIItem(exitButtonSlot);
 
     uiItem.SetOtherSprite(sprite);
 
     uiItems.Add(uiItem);
   }
 
-  private ToppingUIItem InstantiateToppUIItem()
+  private ToppingUIItem InstantiateToppUIItem(Transform slot)
   {
-    GameObject btnTransform = Instantiate(itemTemplate, iconsContainer, false);
+    GameObject btnTransform = Instantiate(itemTemplate, slot, false);
     gameObject.SetActive(true);
 
     return btnTransform.GetComponent<ToppingUIItem>();
+  }
+
+  private void ClearPreviousButtons()
+  {
+    foreach (ToppingUIItem uiItem in uiItems)
+    {
+      if (uiItem != null)
+        Destroy(uiItem.gameObject);
+    }
+    uiItems.Clear();
   }
 
   public void Navigate(Vector2 direction)
@@ -106,7 +117,7 @@ public class ToppingMenuPanelController : MonoBehaviour
   {
     for (int i = 0; i < uiItems.Count; i++)
     {
-      uiItems[i].SetSelected(i == selection);
+      uiItems[i].SetSelected(i == selection, i == uiItems.Count - 1);
     }
   }
 

@@ -259,7 +259,7 @@ public class ShopMenuPanelController : MonoBehaviour
   {
     for (int i = 0; i < uiItems.Count; i++)
     {
-      uiItems[i].SetSelected(i == selection);
+      uiItems[i].SetSelected(i == selection, i == uiItems.Count - 1);
     }
   }
 }

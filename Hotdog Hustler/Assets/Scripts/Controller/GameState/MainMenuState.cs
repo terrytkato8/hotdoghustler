@@ -9,6 +9,7 @@ public class MainMenuState : BaseGameState
 
     // Show UI
     MainMenuPanelController.Show();
+    AudioManager.PlayMainMenuMusic();
   }
 
   public override void Exit()
@@ -29,6 +30,7 @@ public class MainMenuState : BaseGameState
     {
       ProgressionManager.LoadGame();
     }
+    AudioManager.StopMainMenuMusic();
     owner.ChangeState<InitDayState>();
   }
 

@@ -23,28 +23,40 @@ public class DayManager : MonoBehaviour
     }
   }
 
+  [Header("UI References")]
   [SerializeField] private DayClockPanelController dayClockPanelController;
   [SerializeField] private EndOfDayPanelController endOfDayPanelController;
-  private List<ServedOrder> servedOrders;
 
-  [SerializeField] private float dayTimer = 30f;
+  [Header("Day Timing")]
+  [SerializeField] private float dayDuration = 30f;
+
+  [Header("Meal Time Thresholds (Percentage of Day Time left.)")]
+  [SerializeField] private float lunchStartTime = 0.7f;
+  [SerializeField] private float lunchEndTime = 0.5f;
+  [SerializeField] private float dinnerStartTime = 0.3f;
+  [SerializeField] private float dinnerEndTime = 0.15f;
+
+  // Runtime State
   private float timeRemaining;
   private bool isActive;
+  private List<ServedOrder> servedOrders;
+  private List<DayTimeEvent> scheduledEvents;
 
+
+  // Global Events
   public static readonly StaticGameEvent OnLunchStart = new();
   public static readonly StaticGameEvent OnLunchEnd = new();
   public static readonly StaticGameEvent OnDinnerStart = new();
   public static readonly StaticGameEvent OnDinnerEnd = new();
   public static readonly StaticGameEvent On10SecondsLeft = new();
   public static readonly StaticGameEvent OnDayTimeIsUp = new();
-  private List<DayTimeEvent> scheduledEvents;
 
   public void Activate()
   {
     isActive = true;
     SetupDayEvents();
     servedOrders = new List<ServedOrder>();
-    dayClockPanelController.Show(dayTimer);
+    dayClockPanelController.Show(dayDuration);
   }
 
   public void Deactivate()
@@ -74,16 +86,16 @@ public class DayManager : MonoBehaviour
 
   private void SetupDayEvents()
   {
-    timeRemaining = dayTimer;
+    timeRemaining = dayDuration;
     scheduledEvents = new()
     {
       // 1. Lunch (e.g., starts at 70% remaining, ends at 50%)
-      new DayTimeEvent("Lunch Start", dayTimer * 0.7f, OnLunchStart),
-      new DayTimeEvent("Lunch End", dayTimer * 0.5f, OnLunchEnd),
+      new DayTimeEvent("Lunch Start", dayDuration * lunchStartTime, OnLunchStart),
+      new DayTimeEvent("Lunch End", dayDuration * lunchEndTime, OnLunchEnd),
 
       // 2. Dinner (e.g., starts at 30% remaining, ends at 15%)
-      new DayTimeEvent("Dinner Start", dayTimer * 0.3f, OnDinnerStart),
-      new DayTimeEvent("Dinner End", dayTimer * 0.15f, OnDinnerEnd),
+      new DayTimeEvent("Dinner Start", dayDuration * dinnerStartTime, OnDinnerStart),
+      new DayTimeEvent("Dinner End", dayDuration * dinnerEndTime, OnDinnerEnd),
 
       // 3. Global Warnings
       new DayTimeEvent("10 Seconds", 10f, On10SecondsLeft),
