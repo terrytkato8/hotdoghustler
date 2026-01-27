@@ -250,7 +250,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 1802176192785047421}
   cacheVersion: 131857
-  cacheTime: 639050553070124303
+  cacheTime: 639051077330810943
   SerializableEventsDict:
   - key: event:/SFX/NPC/Custom_React_Disapprove
     index: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639050553070124303
+  lastModified: 639051077330810943
   FileSizes:
   - Name: Desktop
     Value: 1624
@@ -450,10 +450,10 @@ MonoBehaviour:
   Path: FMOD_Project/Hotdoghustler/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639050553070104298
+  lastModified: 639051077330800936
   FileSizes:
   - Name: Desktop
-    Value: 4741952
+    Value: 4742144
   Exists: 1
 --- !u!114 &8282443050439557311
 MonoBehaviour:
