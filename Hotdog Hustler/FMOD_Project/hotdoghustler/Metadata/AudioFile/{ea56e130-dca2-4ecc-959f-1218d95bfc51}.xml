@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.03.00">
-	<object class="AudioFile" id="{dd7bc59f-e4bc-4493-bf13-8c5272cd468f}">
+	<object class="AudioFile" id="{ea56e130-dca2-4ecc-959f-1218d95bfc51}">
 		<property name="assetPath">
-			<value>MX/HotdogHustler_01_V1.wav</value>
-		</property>
-		<property name="isStreaming">
-			<value>true</value>
+			<value>SFX/SFX_UI/Select.wav</value>
 		</property>
 		<property name="frequencyInKHz">
-			<value>48</value>
+			<value>96</value>
 		</property>
 		<property name="channelCount">
 			<value>2</value>
 		</property>
 		<property name="length">
-			<value>81.290333333333336</value>
+			<value>0.33721875000000001</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{1d1275bc-7cf7-402c-84d1-151987cb446a}</destination>
