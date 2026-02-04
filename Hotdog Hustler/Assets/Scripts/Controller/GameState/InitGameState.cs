@@ -9,11 +9,17 @@ public class InitGameState : BaseGameState
     StartCoroutine(Init());
   }
 
+  public override void Exit()
+  {
+    base.Exit();
+    MainAudio.PlayMainMenuMusic();
+  }
+
   private IEnumerator Init()
   {
     StaticGameEvent.ResetAllStaticEvents();
 
     yield return null;
-    owner.ChangeState<InitDayState>();
+    owner.ChangeState<MainMenuStartState>();
   }
 }

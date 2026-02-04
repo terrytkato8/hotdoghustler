@@ -19,11 +19,11 @@ public class GameManager : StateMachine
   [SerializeField] private TutorialManager tutorialManager;
   [SerializeField] private MainMenuPanelController mainMenuPanelController;
   [SerializeField] private MainAudio audioManager;
+  public int currentDay;
 
   void Start ()
   {
-    //ChangeState<MainMenuState>(); //when we have a mainmenustate, the game starts with that
-    ChangeState<MainMenuState>();
+    ChangeState<InitGameState>();
   }
 
   //GETTER

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -14,9 +15,8 @@ public class CustomerManager : MonoBehaviour
   [SerializeField] private PreparedDishListSO preparedDishListSO;
 
   [Header("Settings")]
-  [SerializeField] private float minSpawnDelay = 2f;
-  [SerializeField] private float maxSpawnDelay = 7f;
-  [SerializeField] private float customerGrowthPerDay = 0.15f;
+  [SerializeField] private float minSpawnDelay;
+  [SerializeField] private float maxSpawnDelay;
   [SerializeField] private float rushHourSpawnMultiplier = 1.5f;
   [SerializeField] private float maxSpawnDelayDayStart = 4f;
   [SerializeField] private float minSpawnDelayDayStart = 1f;
@@ -26,7 +26,8 @@ public class CustomerManager : MonoBehaviour
   private Customer frontCustomer;
   private float spawnTimer;
   private float currentSpawnMultiplier = 1;
-  private float currentMaxSpawnDelay;
+  private float customerPatienceMultiplier;
+  private bool isServingCustomer = false;
   private bool isSpawningPaused;
   private bool isActive;
 
@@ -40,12 +41,12 @@ public class CustomerManager : MonoBehaviour
 
   // --- SETUP ---
 
-  public void Activate(List<ToppingSO> toppingList, int day, bool needTutorial)
+  public void Activate(List<ToppingSO> toppingList, bool needTutorial, DailyDifficulty dailyDifficulty)
   {
     orderGenerator = new(preparedDishListSO.preparedDishList, toppingList);
 
-    CalculateDifficulty(day);
     SetupTutorial(needTutorial);
+    SetupDifficulty(dailyDifficulty);
 
     spawnTimer = UnityEngine.Random.Range(minSpawnDelayDayStart, maxSpawnDelayDayStart);
     isSpawningPaused = false;
@@ -92,13 +93,13 @@ public class CustomerManager : MonoBehaviour
     if (spawnTimer <= 0f)
     {
       SpawnCustomer();
-      spawnTimer = UnityEngine.Random.Range(minSpawnDelay, currentMaxSpawnDelay);
+      spawnTimer = UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay);
     }
   }
 
   private void HandleFrontCustomer()
   {
-    if (customersInLine.Count == 0 || tutorialOrder != null) return;
+    if (customersInLine.Count == 0 || tutorialOrder != null || isServingCustomer) return;
 
     orderPanelController.UpdateVisuals(Mathf.Max(0, frontCustomer.GetPatienceTime()));
 
@@ -126,7 +127,7 @@ public class CustomerManager : MonoBehaviour
       newOrder = orderGenerator.GenerateRandomOrder();
     }
 
-    newCustomer.Setup(newOrder);
+    newCustomer.Setup(newOrder, customerPatienceMultiplier);
     customersInLine.Add(newCustomer);
 
     if (queueIndex == 0) //if this customer spawns at the frontspot, update the Order Panel
@@ -208,6 +209,8 @@ public class CustomerManager : MonoBehaviour
 
   private IEnumerator ServeCustomer(Customer customer, KitchenObject playerKitchenObject)
   {
+    isServingCustomer = true;
+
     ServedOrder servedOrder = ProcessOrderData(customer, playerKitchenObject);
 
     OnCustomerServed.Invoke(this, new OnCustomerServedEventArgs
@@ -215,11 +218,14 @@ public class CustomerManager : MonoBehaviour
       servedOrder = servedOrder
     });
 
+    Debug.Log("IEnumerator ServeCustomer from customer manager");
+
     orderPanelController.HideOrderPanel();
 
     yield return StartCoroutine(customer.ReactToFood(servedOrder.accuracy));
 
     CustomerLeaves(customer);
+    isServingCustomer = false;
   }
 
   private ServedOrder ProcessOrderData(Customer customer, KitchenObject playerKitchenObject)
@@ -243,13 +249,6 @@ public class CustomerManager : MonoBehaviour
 
   // --- HELPERS ---
 
-  private void CalculateDifficulty(int day)
-  {
-    double growth = Math.Pow(1 - customerGrowthPerDay, day);
-    currentMaxSpawnDelay = maxSpawnDelay * (float)growth;
-    Debug.Log("spawn delay: " + currentMaxSpawnDelay);
-  }
-
   private double CalculateMoneyPaid(Order order, double accuracy)
   {
     if (order == null || accuracy == 0)
@@ -263,13 +262,20 @@ public class CustomerManager : MonoBehaviour
   {
     if (needTutorial)
     {
-      // Hardcoded tutorial: Hotdog + Ketchup + Mustard (Indices depend on your lists)
+      // Hardcoded tutorial: Hotdog + Ketchup + Mustard
       tutorialOrder = orderGenerator.GenerateSpecificOrder(0, new int[] { 0, 1 });
     }
     else
     {
       tutorialOrder = null;
     }
+  }
+
+  private void SetupDifficulty(DailyDifficulty dailyDifficulty)
+  {
+    minSpawnDelay = dailyDifficulty.MinSpawnDelay;
+    maxSpawnDelay = dailyDifficulty.MaxSpawnDelay;
+    customerPatienceMultiplier = dailyDifficulty.PatienceMultiplier;
   }
 
   // --- EVENT LISTENERS ---

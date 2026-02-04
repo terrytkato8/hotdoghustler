@@ -3,34 +3,10 @@ using UnityEngine;
 
 public class MainMenuState : BaseGameState
 {
-  public override void Enter()
+  protected void ChangeState()
   {
-    base.Enter();
-
-    // Show UI
-    MainMenuPanelController.Show();
-    AudioManager.PlayMainMenuMusic();
-  }
-
-  public override void Exit()
-  {
-    base.Exit();
-
-    // Hide UI 
+    MainAudio.StopMainMenuMusic();
     MainMenuPanelController.Hide();
-  }
-
-  protected override void OnRegularInteraction()
-  {
-    if (!MainMenuPanelController.PlayerChoseContinue())
-    {
-      ProgressionManager.StartNewGame();
-    }
-    else
-    {
-      ProgressionManager.LoadGame();
-    }
-    AudioManager.StopMainMenuMusic();
     owner.ChangeState<InitDayState>();
   }
 

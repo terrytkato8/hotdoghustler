@@ -65,6 +65,6 @@ public class CookingServingState : DayState
 
   private void TutorialManager_OnTutorialOrderServed(object sender, EventArgs e)
   {
-    DayManager.Activate();
+    DayManager.Activate(CurrentDay);
   }
 }

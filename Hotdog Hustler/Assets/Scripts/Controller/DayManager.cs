@@ -24,7 +24,7 @@ public class DayManager : MonoBehaviour
   }
 
   [Header("UI References")]
-  [SerializeField] private DayClockPanelController dayClockPanelController;
+  [SerializeField] private DayPanelController dayPanelController;
   [SerializeField] private EndOfDayPanelController endOfDayPanelController;
 
   [Header("Day Timing")]
@@ -51,18 +51,18 @@ public class DayManager : MonoBehaviour
   public static readonly StaticGameEvent On10SecondsLeft = new();
   public static readonly StaticGameEvent OnDayTimeIsUp = new();
 
-  public void Activate()
+  public void Activate(int currentDay)
   {
     isActive = true;
     SetupDayEvents();
     servedOrders = new List<ServedOrder>();
-    dayClockPanelController.Show(dayDuration);
+    dayPanelController.Show(dayDuration, currentDay);
   }
 
   public void Deactivate()
   {
     isActive = false;
-    dayClockPanelController.Hide();
+    dayPanelController.Hide();
     endOfDayPanelController.Hide();
   }
 
@@ -71,7 +71,7 @@ public class DayManager : MonoBehaviour
     if (!isActive) return;
 
     timeRemaining = Mathf.Max(0, timeRemaining -= Time.deltaTime);
-    dayClockPanelController.UpdateClock(timeRemaining);
+    dayPanelController.UpdateClock(timeRemaining);
 
     foreach (var dayTimeEvent in scheduledEvents)
     {
@@ -116,9 +116,10 @@ public class DayManager : MonoBehaviour
   public void AddCustomerServed(ServedOrder servedOrder)
   {
     servedOrders.Add(servedOrder);
-    Debug.Log("order: " + servedOrder.order);
+    double totalMoneyPaid = GetTotalMoneyPaid();
+    dayPanelController.UpdateCustomersServed(servedOrders.Count, totalMoneyPaid);
+
     Debug.Log("accuracy: " + servedOrder.accuracy);
-    Debug.Log("moneyPaid: " + servedOrder.moneyPaid);
   }
 
   public int GetCustomersServedCount()

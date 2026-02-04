@@ -2,10 +2,16 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+public enum DifficultyMode { Easy, Hard }
+
 public class ProgressionManager : MonoBehaviour
 {
   [SerializeField] private ToppingListSO masterToppingListSO; // All possible items
   [SerializeField] private ToppingListSO startingToppingListSO; // Items owned at Day 1.
+  [SerializeField] private DifficultyProfileSO easyProfile;
+  [SerializeField] private DifficultyProfileSO hardProfile;
+
+  private DifficultyMode currentMode = DifficultyMode.Easy;
 
   private List<ToppingSO> unlockedToppingList = new();
   private double currentBalance; //this and the unlockedToppingList will be loaded from a json file when we have a save system.
@@ -19,6 +25,7 @@ public class ProgressionManager : MonoBehaviour
     {
       money = currentBalance,
       day = day,
+      difficultyMode = currentMode,
 
       unlockedToppingNames = new List<string>()
     };
@@ -45,6 +52,7 @@ public class ProgressionManager : MonoBehaviour
 
       currentBalance = data.money;
       day = data.day;
+      currentMode = data.difficultyMode;
 
       unlockedToppingList.Clear();
 
@@ -88,6 +96,18 @@ public class ProgressionManager : MonoBehaviour
       File.Delete(path);
       Debug.Log("Save Deleted.");
     }
+  }
+
+  public void SetDifficultyMode(DifficultyMode mode)
+  {
+    currentMode = mode;
+    Debug.Log($"Difficulty set to: {mode}");
+  }
+
+  public DailyDifficulty GetDifficultyForDay(int day)
+  {
+    DifficultyProfileSO activeProfile = currentMode == DifficultyMode.Easy ? easyProfile : hardProfile;
+    return activeProfile.GetDailyDifficulty(day);
   }
 
   public List<ToppingSO> GetUnlockedToppings()

@@ -8,6 +8,7 @@ using static Player;
 public class Customer : MonoBehaviour
 {
   [SerializeField] private float patienceTime = 15f;
+  private float patienceMultiplier;
   private Order wantedOrder;
 
   private bool isFrontCustomer;
@@ -15,9 +16,10 @@ public class Customer : MonoBehaviour
   public event EventHandler OnSetup;
   public event EventHandler<OnReactionEventArgs> OnReaction;
 
-  public void Setup(Order order)
+  public void Setup(Order order, float patienceMultiplier)
   {
     wantedOrder = order;
+    this.patienceMultiplier = patienceMultiplier;
 
     OnSetup?.Invoke(this, EventArgs.Empty);
   }
@@ -31,7 +33,7 @@ public class Customer : MonoBehaviour
   {
     if (isFrontCustomer)
     { 
-      patienceTime -= Time.deltaTime;
+      patienceTime -= Time.deltaTime * patienceMultiplier;
     }
   }
 

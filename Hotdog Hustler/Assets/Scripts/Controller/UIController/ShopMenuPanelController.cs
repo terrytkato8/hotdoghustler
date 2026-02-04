@@ -17,9 +17,9 @@ public class ShopMenuPanelController : MonoBehaviour
 
   [SerializeField] private TextMeshProUGUI moneyText;
 
-  private List<ToppingSO> basicToppingList = new();
-  private List<ToppingSO> betterToppingList = new();
-  private List<ToppingSO> premiumToppingList = new();
+  private List<ToppingSO> basicToppingList;
+  private List<ToppingSO> betterToppingList;
+  private List<ToppingSO> premiumToppingList;
   private List<List<ToppingSO>> toppingCategoryList;
 
   private List<ToppingSO> currentToppingList;
@@ -27,6 +27,9 @@ public class ShopMenuPanelController : MonoBehaviour
 
   public void Show(double money, List<ToppingSO> lockedToppings)
   {
+    basicToppingList = new();
+    betterToppingList = new();
+    premiumToppingList = new();
     toppingCategoryList = new() { basicToppingList, betterToppingList, premiumToppingList };
     CategorizeToppings(lockedToppings);
 
@@ -38,6 +41,7 @@ public class ShopMenuPanelController : MonoBehaviour
   public void Hide() 
   {
     visualPanel.SetActive(false);
+
   }
 
   public void ShowCategories()
@@ -196,14 +200,9 @@ public class ShopMenuPanelController : MonoBehaviour
   {
     ClearUIItems();
 
-    foreach (List<ToppingSO> toppingList in toppingCategoryList)
-    {
-      if (toppingList.Count > 0)
-      {
-        ToppingSO topping = toppingList[0];
-        CreateButton(topping.quality);
-      }
-    }
+    CreateButton(ToppingQuality.basic);
+    CreateButton(ToppingQuality.better);
+    CreateButton(ToppingQuality.premium);
 
     CreateButton(exitIconSprite);
 

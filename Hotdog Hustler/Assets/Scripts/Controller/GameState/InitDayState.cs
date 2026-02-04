@@ -11,14 +11,14 @@ public class InitDayState : BaseGameState
 
   private IEnumerator Init()
   {
-    int currentDay = ProgressionManager.GetDay();
+    CurrentDay = ProgressionManager.GetDay();
 
-    Debug.Log("starting Day " + currentDay);
-    AudioManager.StartDay();
+    Debug.Log("starting Day " + CurrentDay);
+    MainAudio.StartDay();
 
     OrderPanelController OrderPanelController = CustomerManager.GetOrderPanelController();
     int tutorialDay = 1; //activate tutorial on day 1
-    bool needTutorial = currentDay == tutorialDay;
+    bool needTutorial = CurrentDay == tutorialDay;
     if (needTutorial) 
     {
       TutorialManager.Activate(Grillstation, ToastStation, ServingStation, ToppingStation, OrderPanelController, ToppingMenuPanelController);
@@ -27,10 +27,11 @@ public class InitDayState : BaseGameState
     {
       if (TutorialManager.IsActive()) TutorialManager.Deactivate();
       ProgressionManager.IncreaseDay();
-      DayManager.Activate(); //when the tutorial is active, the daymanager will be activated later.
+      DayManager.Activate(CurrentDay); //when the tutorial is active, the daymanager will be activated later.
     }
 
-    CustomerManager.Activate(ProgressionManager.GetUnlockedToppings(), currentDay, needTutorial);
+    DailyDifficulty currentDifficulty = ProgressionManager.GetDifficultyForDay(CurrentDay);
+    CustomerManager.Activate(ProgressionManager.GetUnlockedToppings(), needTutorial, currentDifficulty);
 
     ProgressionManager.SaveGame();
 
